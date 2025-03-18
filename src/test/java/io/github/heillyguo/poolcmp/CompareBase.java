@@ -20,6 +20,9 @@ import cn.beeop.BeeObjectSource;
 import cn.beeop.BeeObjectSourceConfig;
 import cn.itcraft.frogspawn.ObjectsMemoryPool;
 import cn.itcraft.frogspawn.ObjectsMemoryPoolFactory;
+import cn.itcraft.frogspawn.strategy.FetchFailStrategy;
+import cn.itcraft.frogspawn.strategy.FetchStrategy;
+import cn.itcraft.frogspawn.strategy.PoolStrategy;
 import cn.nextop.lite.pool.Pool;
 import cn.nextop.lite.pool.PoolBuilder;
 import org.apache.commons.pool2.impl.GenericObjectPool;
@@ -38,8 +41,6 @@ import org.vibur.objectpool.util.ConcurrentLinkedQueueCollection;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
-import static cn.itcraft.frogspawn.strategy.PoolStrategy.MUST_FETCH_IN_POOL;
-
 @State(Scope.Benchmark)
 public class CompareBase {
 
@@ -56,7 +57,9 @@ public class CompareBase {
     protected static final BeeObjectSource BEEOP_POOL;
     protected static final org.bbottema.genericobjectpool.GenericObjectPool<DemoPojo> G_O_POOL;
     protected static final ObjectsMemoryPool<DemoPojo> FS_POOL
-            = ObjectsMemoryPoolFactory.newPool(new DemoPojoCreator(), 3000, MUST_FETCH_IN_POOL);
+            = ObjectsMemoryPoolFactory.newPool(new DemoPojoCreator(), 3000,
+                                               new PoolStrategy(FetchStrategy.MUST_FETCH_IN_POOL,
+                                                                FetchFailStrategy.CALL_CREATOR, false));
 
     static {
         CONFIG.setMaxTotal(3000);
