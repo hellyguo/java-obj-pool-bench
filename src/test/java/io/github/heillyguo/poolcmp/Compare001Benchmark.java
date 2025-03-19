@@ -40,48 +40,12 @@ import java.util.concurrent.TimeUnit;
 public class Compare001Benchmark extends CompareBase {
 
     @Benchmark
-    public void testCommonsPool(Blackhole blackhole) {
-        DemoPojo pojo = null;
-        try {
-            pojo = COMMONS_POOL.borrowObject();
-            blackhole.consume(pojo);
-        } catch (Exception e) {
-            //
-        } finally {
-            COMMONS_POOL.returnObject(pojo);
-        }
+    public void test0New(Blackhole blackhole) {
+        blackhole.consume(new DemoPojo());
     }
 
     @Benchmark
-    public void testViburPool(Blackhole blackhole) {
-        DemoPojo pojo = null;
-        try {
-            pojo = VIBUR_POOL.tryTake(100, TimeUnit.MILLISECONDS);
-            blackhole.consume(pojo);
-        } catch (Exception e) {
-            //
-        } finally {
-            VIBUR_POOL.restore(pojo);
-        }
-    }
-
-    @Benchmark
-    public void testLitePool(Blackhole blackhole) {
-        DemoPojo pojo = null;
-        try {
-            pojo = LITE_POOL.acquire();
-            blackhole.consume(pojo);
-        } catch (Exception e) {
-            //
-        } finally {
-            if (pojo != null) {
-                LITE_POOL.release(pojo);
-            }
-        }
-    }
-
-    @Benchmark
-    public void testBeeOP(Blackhole blackhole) {
+    public void test1BeeOP(Blackhole blackhole) {
         BeeObjectHandle handle = null;
         try {
             handle = BEEOP_POOL.getObject();
@@ -100,7 +64,33 @@ public class Compare001Benchmark extends CompareBase {
     }
 
     @Benchmark
-    public void testGOPool(Blackhole blackhole) {
+    public void test2CommonsPool(Blackhole blackhole) {
+        DemoPojo pojo = null;
+        try {
+            pojo = COMMONS_POOL.borrowObject();
+            blackhole.consume(pojo);
+        } catch (Exception e) {
+            //
+        } finally {
+            COMMONS_POOL.returnObject(pojo);
+        }
+    }
+
+    @Benchmark
+    public void test3FrogspawnPool(Blackhole blackhole) {
+        DemoPojo pojo = null;
+        try {
+            pojo = FS_POOL.fetch();
+            blackhole.consume(pojo);
+        } catch (Exception e) {
+            //
+        } finally {
+            FS_POOL.release(pojo);
+        }
+    }
+
+    @Benchmark
+    public void test4GOPool(Blackhole blackhole) {
         PoolableObject<DemoPojo> holder = null;
         try {
             holder = G_O_POOL.claim(1, TimeUnit.SECONDS); // null if timed out
@@ -117,21 +107,31 @@ public class Compare001Benchmark extends CompareBase {
     }
 
     @Benchmark
-    public void testFrogspawnPool(Blackhole blackhole) {
+    public void test5LitePool(Blackhole blackhole) {
         DemoPojo pojo = null;
         try {
-            pojo = FS_POOL.fetch();
+            pojo = LITE_POOL.acquire();
             blackhole.consume(pojo);
         } catch (Exception e) {
             //
         } finally {
-            FS_POOL.release(pojo);
+            if (pojo != null) {
+                LITE_POOL.release(pojo);
+            }
         }
     }
 
     @Benchmark
-    public void testNew(Blackhole blackhole) {
-        blackhole.consume(new DemoPojo());
+    public void test6ViburPool(Blackhole blackhole) {
+        DemoPojo pojo = null;
+        try {
+            pojo = VIBUR_POOL.tryTake(100, TimeUnit.MILLISECONDS);
+            blackhole.consume(pojo);
+        } catch (Exception e) {
+            //
+        } finally {
+            VIBUR_POOL.restore(pojo);
+        }
     }
 
 }

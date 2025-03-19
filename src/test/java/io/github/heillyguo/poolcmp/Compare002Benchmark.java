@@ -40,58 +40,21 @@ import java.util.concurrent.TimeUnit;
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 public class Compare002Benchmark extends CompareBase {
 
-    //@Benchmark
-    public void testCommonsPoolOneRequestMultiTimes(Blackhole blackhole) {
-        DemoPojo[] pojoArray = new DemoPojo[ARRAY_SIZE];
-        try {
-            for (int i = 0; i < ARRAY_SIZE; i++) {
-                pojoArray[i] = COMMONS_POOL.borrowObject();
-            }
-            blackhole.consume(pojoArray);
-        } catch (Exception e) {
-            //
-        } finally {
-            Arrays.stream(pojoArray).forEach(COMMONS_POOL::returnObject);
+    private static final ThreadLocal<DemoPojo[]> ARRAY_LOCAL
+            = ThreadLocal.withInitial(() -> new DemoPojo[ARRAY_SIZE]);
+
+    @Benchmark
+    public void test0NewOneRequestMultiTimes(Blackhole blackhole) {
+        DemoPojo[] pojoArray = getPojo();
+        for (int i = 0; i < ARRAY_SIZE; i++) {
+            pojoArray[i] = new DemoPojo();
         }
+        blackhole.consume(pojoArray);
     }
 
     @Benchmark
-    public void testViburPoolOneRequestMultiTimes(Blackhole blackhole) {
-        DemoPojo[] pojoArray = new DemoPojo[ARRAY_SIZE];
-        try {
-            for (int i = 0; i < ARRAY_SIZE; i++) {
-                pojoArray[i] = VIBUR_POOL.tryTake(100, TimeUnit.MILLISECONDS);
-            }
-            blackhole.consume(pojoArray);
-        } catch (Exception e) {
-            //
-        } finally {
-            Arrays.stream(pojoArray).forEach(VIBUR_POOL::restore);
-        }
-    }
-
-    @Benchmark
-    public void testLitePoolOneRequestMultiTimes(Blackhole blackhole) {
-        DemoPojo[] pojoArray = new DemoPojo[ARRAY_SIZE];
-        try {
-            for (int i = 0; i < ARRAY_SIZE; i++) {
-                pojoArray[i] = LITE_POOL.acquire();
-            }
-            blackhole.consume(pojoArray);
-        } catch (Exception e) {
-            //
-        } finally {
-            Arrays.stream(pojoArray).forEach(pojo -> {
-                if (pojo != null) {
-                    LITE_POOL.release(pojo);
-                }
-            });
-        }
-    }
-
-    @Benchmark
-    public void testBeeOPOneRequestMultiTimes(Blackhole blackhole) {
-        DemoPojo[] pojoArray = new DemoPojo[ARRAY_SIZE];
+    public void test1BeeOPOneRequestMultiTimes(Blackhole blackhole) {
+        DemoPojo[] pojoArray = getPojo();
         BeeObjectHandle[] handles = new BeeObjectHandle[ARRAY_SIZE];
         try {
             for (int i = 0; i < ARRAY_SIZE; i++) {
@@ -114,10 +77,40 @@ public class Compare002Benchmark extends CompareBase {
         }
     }
 
+    @Benchmark
+    public void test2CommonsPoolOneRequestMultiTimes(Blackhole blackhole) {
+        DemoPojo[] pojoArray = getPojo();
+        try {
+            for (int i = 0; i < ARRAY_SIZE; i++) {
+                pojoArray[i] = COMMONS_POOL.borrowObject();
+            }
+            blackhole.consume(pojoArray);
+        } catch (Exception e) {
+            //
+        } finally {
+            Arrays.stream(pojoArray).forEach(COMMONS_POOL::returnObject);
+        }
+    }
+
+    @Benchmark
+    public void test3FrogspawnPoolOneRequestMultiTimes(Blackhole blackhole) {
+        DemoPojo[] pojoArray = getPojo();
+        try {
+            for (int i = 0; i < ARRAY_SIZE; i++) {
+                pojoArray[i] = FS_POOL.fetch();
+            }
+            blackhole.consume(pojoArray);
+        } catch (Exception e) {
+            //
+        } finally {
+            Arrays.stream(pojoArray).forEach(FS_POOL::release);
+        }
+    }
+
     @SuppressWarnings("unchecked")
     @Benchmark
-    public void testGOPoolOneRequestMultiTimes(Blackhole blackhole) {
-        DemoPojo[] pojoArray = new DemoPojo[ARRAY_SIZE];
+    public void test4GOPoolOneRequestMultiTimes(Blackhole blackhole) {
+        DemoPojo[] pojoArray = getPojo();
         PoolableObject<DemoPojo>[] holders = new PoolableObject[ARRAY_SIZE];
         try {
             PoolableObject<DemoPojo> holder;
@@ -141,27 +134,41 @@ public class Compare002Benchmark extends CompareBase {
     }
 
     @Benchmark
-    public void testFrogspawnPoolOneRequestMultiTimes(Blackhole blackhole) {
-        DemoPojo[] pojoArray = new DemoPojo[ARRAY_SIZE];
+    public void test5LitePoolOneRequestMultiTimes(Blackhole blackhole) {
+        DemoPojo[] pojoArray = getPojo();
         try {
             for (int i = 0; i < ARRAY_SIZE; i++) {
-                pojoArray[i] = FS_POOL.fetch();
+                pojoArray[i] = LITE_POOL.acquire();
             }
             blackhole.consume(pojoArray);
         } catch (Exception e) {
             //
         } finally {
-            Arrays.stream(pojoArray).forEach(FS_POOL::release);
+            Arrays.stream(pojoArray).forEach(pojo -> {
+                if (pojo != null) {
+                    LITE_POOL.release(pojo);
+                }
+            });
         }
     }
 
     @Benchmark
-    public void testNewOneRequestMultiTimes(Blackhole blackhole) {
-        DemoPojo[] pojoArray = new DemoPojo[ARRAY_SIZE];
-        for (int i = 0; i < ARRAY_SIZE; i++) {
-            pojoArray[i] = new DemoPojo();
+    public void test6ViburPoolOneRequestMultiTimes(Blackhole blackhole) {
+        DemoPojo[] pojoArray = getPojo();
+        try {
+            for (int i = 0; i < ARRAY_SIZE; i++) {
+                pojoArray[i] = VIBUR_POOL.tryTake(100, TimeUnit.MILLISECONDS);
+            }
+            blackhole.consume(pojoArray);
+        } catch (Exception e) {
+            //
+        } finally {
+            Arrays.stream(pojoArray).forEach(VIBUR_POOL::restore);
         }
-        blackhole.consume(pojoArray);
+    }
+
+    private DemoPojo[] getPojo() {
+        return ARRAY_LOCAL.get();
     }
 
 }

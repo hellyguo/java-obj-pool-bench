@@ -48,9 +48,7 @@ public class CompareBase {
 
     protected static final int ARRAY_SIZE = 32;
 
-    protected static final GenericObjectPoolConfig<DemoPojo> CONFIG = new GenericObjectPoolConfig<>();
-    protected static final GenericObjectPool<DemoPojo> COMMONS_POOL
-            = new GenericObjectPool<>(new DemoPojoCommonsPooledObjectFactory(), CONFIG);
+    protected static final GenericObjectPool<DemoPojo> COMMONS_POOL;
     protected static final PoolService<DemoPojo> VIBUR_POOL = new ConcurrentPool<>(
             new ConcurrentLinkedQueueCollection<>(), new DemoPojoViburPoolObjectFactory(), 2000, 3000, false);
     protected static final Pool<DemoPojo> LITE_POOL;
@@ -62,16 +60,16 @@ public class CompareBase {
                                                                 FetchFailStrategy.CALL_CREATOR, false));
 
     static {
-        CONFIG.setMaxTotal(3000);
-        CONFIG.setMaxIdle(3000);
-        CONFIG.setMinIdle(2000);
-    }
-
-    static {
         try {
+            GenericObjectPoolConfig<DemoPojo> CONFIG = new GenericObjectPoolConfig<>();
+            CONFIG.setMaxTotal(3000);
+            CONFIG.setMaxIdle(3000);
+            CONFIG.setMinIdle(2000);
+            COMMONS_POOL = new GenericObjectPool<>(new DemoPojoCommonsPooledObjectFactory(), CONFIG);
             COMMONS_POOL.preparePool();
         } catch (Exception e) {
             LOGGER.warn(e.getMessage(), e);
+            throw new RuntimeException(e);
         }
     }
 
