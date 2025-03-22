@@ -37,3 +37,8 @@ Compare002Benchmark.test4GOPoolOneRequestMultiTimes         thrpt    5    172.71
 Compare002Benchmark.test5LitePoolOneRequestMultiTimes       thrpt    5    432.140 ±   72.527  ops/ms
 Compare002Benchmark.test6ViburPoolOneRequestMultiTimes      thrpt    5    140.157 ±    3.787  ops/ms
 ```
+
+## 结论
+
+1. 逐个使用，建议使用：`frogspawn`
+2. 一批使用，建议使用：`BeeOP`
