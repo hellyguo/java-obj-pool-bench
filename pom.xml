@@ -107,20 +107,6 @@
             <scope>test</scope>
         </dependency>
         <!-- pool implements -->
-        <!-- compare: frogspawn -->
-        <dependency>
-            <groupId>cn.itcraft</groupId>
-            <artifactId>frogspawn</artifactId>
-            <version>0.5</version>
-            <scope>test</scope>
-        </dependency>
-        <!-- compare: commons-pool2 -->
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-pool2</artifactId>
-            <version>2.11.1</version>
-            <scope>test</scope>
-        </dependency>
         <!-- compare: beeop -->
         <dependency>
             <groupId>com.github.chris2018998</groupId>
@@ -128,11 +114,18 @@
             <version>1.2.8</version>
             <scope>test</scope>
         </dependency>
-        <!-- compare: vibur-object-pool -->
+        <!-- compare: commons-pool2 -->
         <dependency>
-            <groupId>org.vibur</groupId>
-            <artifactId>vibur-object-pool</artifactId>
-            <version>25.0</version>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+            <version>2.12.1</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- compare: frogspawn -->
+        <dependency>
+            <groupId>cn.itcraft</groupId>
+            <artifactId>frogspawn</artifactId>
+            <version>0.5</version>
             <scope>test</scope>
         </dependency>
         <!-- compare: generic-object-pool -->
@@ -147,6 +140,13 @@
             <groupId>cn.nextop</groupId>
             <artifactId>lite-pool</artifactId>
             <version>1.0.0-RC3</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- compare: vibur-object-pool -->
+        <dependency>
+            <groupId>org.vibur</groupId>
+            <artifactId>vibur-object-pool</artifactId>
+            <version>25.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
