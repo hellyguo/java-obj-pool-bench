@@ -6,10 +6,15 @@ try to compare all available object pool libraries
 
 - just `new`
 - [`BeeOP`](https://github.com/Chris2018998/BeeOP)
+- [`commons-pool`](https://commons.apache.org/proper/commons-pool/)
 - [`commons-pool2`](https://commons.apache.org/proper/commons-pool/)
+- [`ERASOFT Furious Object Pool`](https://code.google.com/archive/p/furious-objectpool/)
+- [`Fast Object Pool`](https://github.com/DanielYWoo/fast-object-pool)
 - [`frogspawn`](https://itcraft.cn/frogspawn/)
 - [`generic-object-pool`](https://github.com/bbottema/generic-object-pool)
 - [`lite-pool`](https://github.com/nextopcn/lite-pool)
+- [`Stormpot Blaze Pool`](http://chrisvest.github.io/stormpot/)
+- [`Stormpot Queue Pool`](http://chrisvest.github.io/stormpot/)
 - [`vibur-object-pool`](https://github.com/vibur/vibur-object-pool)
 
 > 运行于 Intel(R) Core(TM) i5-10210U CPU @ 1.60GHz
