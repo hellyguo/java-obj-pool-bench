@@ -17,14 +17,23 @@ try to compare all available object pool libraries
 > `JVM` 开启参数 `-XX:-RestrictContended`
 
 ```verilog
-Benchmark                                Mode  Cnt       Score       Error   Units
-Compare001Benchmark.test0New            thrpt    5  301347.358 ± 22125.385  ops/ms
-Compare001Benchmark.test1BeeOP          thrpt    5   18679.264 ±  1319.493  ops/ms
-Compare001Benchmark.test2CommonsPool    thrpt    5    2015.602 ±   127.976  ops/ms
-Compare001Benchmark.test3FrogspawnPool  thrpt    5  143229.173 ± 14218.968  ops/ms
-Compare001Benchmark.test4GOPool         thrpt    5    5889.166 ±   519.793  ops/ms
-Compare001Benchmark.test5LitePool       thrpt    5     407.865 ±    91.235  ops/ms
-Compare001Benchmark.test6ViburPool      thrpt    5    4703.997 ±   393.154  ops/ms
+Benchmark                                     Mode  Cnt    Score     Error   Units
+Compare001Benchmark.test00New                thrpt    5  191.197 ± 185.102  ops/us
+Compare001Benchmark.test01BeeOP              thrpt    5   23.143 ±   6.302  ops/us
+Compare001Benchmark.test02BeeOP              thrpt    5   11.880 ±  12.909  ops/us
+Compare001Benchmark.test03CommonsPool        thrpt    5    2.682 ±   0.151  ops/us
+Compare001Benchmark.test04CommonsPool        thrpt    5    0.881 ±   0.104  ops/us
+Compare001Benchmark.test05CommonsPool        thrpt    5    4.119 ±   0.122  ops/us
+Compare001Benchmark.test06CommonsPool2       thrpt    5    1.729 ±   0.156  ops/us
+Compare001Benchmark.test07CommonsPool2       thrpt    5    0.042 ±   0.026  ops/us
+Compare001Benchmark.test08ERASOFTPool        thrpt    5    7.232 ±   0.916  ops/us
+Compare001Benchmark.test09FrogspawnPool      thrpt    5  115.128 ±  30.398  ops/us
+Compare001Benchmark.test10GOPool             thrpt    5    4.453 ±   0.337  ops/us
+Compare001Benchmark.test11KBPool             thrpt    5    2.263 ±   0.180  ops/us
+Compare001Benchmark.test12LitePool           thrpt    5    0.351 ±   0.118  ops/us
+Compare001Benchmark.test13StormPotBlazePool  thrpt    5   85.196 ±  14.715  ops/us
+Compare001Benchmark.test14StormPotQueuePool  thrpt    5    4.594 ±   1.015  ops/us
+Compare001Benchmark.test15ViburPool          thrpt    5    4.317 ±   0.478  ops/us
 ```
 
 ```verilog
@@ -40,5 +49,5 @@ Compare002Benchmark.test6ViburPoolOneRequestMultiTimes      thrpt    5    140.15
 
 ## 结论
 
-1. 逐个使用，建议使用：`frogspawn`
+1. 逐个使用，建议使用：`frogspawn`/`stormpot`(`blaze pool`)
 2. 一批使用，建议使用：`BeeOP`

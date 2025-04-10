@@ -36,9 +36,9 @@ import java.util.concurrent.TimeUnit;
 @State(Scope.Benchmark)
 @Fork(value = 1, jvmArgsPrepend = {"-Xmx4G", "-Xms4G", "-XX:-RestrictContended"})
 @Threads(value = 8)
-@Warmup(iterations = 10, time = 1, timeUnit = TimeUnit.SECONDS)
+@Warmup(iterations = 5, time = 200, timeUnit = TimeUnit.MILLISECONDS)
 @Measurement(iterations = 5, time = 100, timeUnit = TimeUnit.MILLISECONDS)
-@OutputTimeUnit(TimeUnit.MILLISECONDS)
+@OutputTimeUnit(TimeUnit.MICROSECONDS)
 public class Compare001Benchmark extends CompareBase {
 
     private static final Timeout STORM_POT_TIMEOUT = new Timeout(2, TimeUnit.SECONDS);
