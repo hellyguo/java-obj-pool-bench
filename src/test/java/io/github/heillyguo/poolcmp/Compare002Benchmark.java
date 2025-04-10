@@ -82,13 +82,13 @@ public class Compare002Benchmark extends CompareBase {
         DemoPojo[] pojoArray = getPojo();
         try {
             for (int i = 0; i < ARRAY_SIZE; i++) {
-                pojoArray[i] = COMMONS_POOL.borrowObject();
+                pojoArray[i] = COMMONS_2_POOL.borrowObject();
             }
             blackhole.consume(pojoArray);
         } catch (Exception e) {
             //
         } finally {
-            Arrays.stream(pojoArray).forEach(COMMONS_POOL::returnObject);
+            Arrays.stream(pojoArray).forEach(COMMONS_2_POOL::returnObject);
         }
     }
 

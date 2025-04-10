@@ -114,11 +114,25 @@
             <version>1.2.8</version>
             <scope>test</scope>
         </dependency>
+        <!-- compare: commons-pool -->
+        <dependency>
+            <groupId>commons-pool</groupId>
+            <artifactId>commons-pool</artifactId>
+            <version>1.6</version>
+            <scope>test</scope>
+        </dependency>
         <!-- compare: commons-pool2 -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-pool2</artifactId>
             <version>2.12.1</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- compare: fast-object-pool -->
+        <dependency>
+            <groupId>cn.danielw</groupId>
+            <artifactId>fast-object-pool</artifactId>
+            <version>2.2.1</version>
             <scope>test</scope>
         </dependency>
         <!-- compare: frogspawn -->
@@ -140,6 +154,27 @@
             <groupId>cn.nextop</groupId>
             <artifactId>lite-pool</artifactId>
             <version>1.0.0-RC3</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- compare: kbop -->
+        <dependency>
+            <groupId>org.pacesys</groupId>
+            <artifactId>kbop</artifactId>
+            <version>1.0.0</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- compare: objectpool -->
+        <dependency>
+            <groupId>nf.fr.eraasoft</groupId>
+            <artifactId>objectpool</artifactId>
+            <version>1.1.2</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- compare: stormpot -->
+        <dependency>
+            <groupId>com.github.chrisvest</groupId>
+            <artifactId>stormpot</artifactId>
+            <version>2.4.2</version>
             <scope>test</scope>
         </dependency>
         <!-- compare: vibur-object-pool -->
