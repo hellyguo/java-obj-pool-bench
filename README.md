@@ -1,6 +1,6 @@
 # java-obj-pool-bench
 
-try to compare all available object pool libraries
+try to compare all available object pool libraries, under **JVM 1.8**
 
 ## 对比测试结果
 
