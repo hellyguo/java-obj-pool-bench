@@ -169,7 +169,41 @@ public class Compare001Benchmark extends CompareBase {
     }
 
     @Benchmark
-    public void test04ERASOFTPool(Blackhole blackhole) {
+    public void test0401CoralArrayPool(Blackhole blackhole) {
+        DemoPojo pojo = null;
+        try {
+            pojo = CORAL_ARRAY_POOL.get();
+            blackhole.consume(pojo);
+        } catch (Exception e) {
+            //
+        } finally {
+            try {
+                CORAL_ARRAY_POOL.release(pojo);
+            } catch (Exception e) {
+                //
+            }
+        }
+    }
+
+    @Benchmark
+    public void test0402CoralLinkedPool(Blackhole blackhole) {
+        DemoPojo pojo = null;
+        try {
+            pojo = CORAL_LINKED_POOL.get();
+            blackhole.consume(pojo);
+        } catch (Exception e) {
+            //
+        } finally {
+            try {
+                CORAL_LINKED_POOL.release(pojo);
+            } catch (Exception e) {
+                //
+            }
+        }
+    }
+
+    @Benchmark
+    public void test05ERASOFTPool(Blackhole blackhole) {
         DemoPojo pojo = null;
         try {
             pojo = ERASOFT_POOL.getObj();
@@ -182,7 +216,7 @@ public class Compare001Benchmark extends CompareBase {
     }
 
     @Benchmark
-    public void test05FastObjectPool(Blackhole blackhole) {
+    public void test06FastObjectPool(Blackhole blackhole) {
         Poolable<DemoPojo> pojo = null;
         try {
             pojo = FAST_POOL.borrowObject();
@@ -195,7 +229,7 @@ public class Compare001Benchmark extends CompareBase {
     }
 
     @Benchmark
-    public void test06FrogspawnPool(Blackhole blackhole) {
+    public void test07FrogspawnPool(Blackhole blackhole) {
         DemoPojo pojo = null;
         try {
             pojo = FS_POOL.fetch();
@@ -209,7 +243,7 @@ public class Compare001Benchmark extends CompareBase {
 
 
     @Benchmark
-    public void test07GOPool(Blackhole blackhole) {
+    public void test08GOPool(Blackhole blackhole) {
         PoolableObject<DemoPojo> holder = null;
         try {
             holder = G_O_POOL.claim(1, TimeUnit.SECONDS); // null if timed out
@@ -226,7 +260,7 @@ public class Compare001Benchmark extends CompareBase {
     }
 
     @Benchmark
-    public void test08KBPool(Blackhole blackhole) {
+    public void test09KBPool(Blackhole blackhole) {
         IPooledObject<DemoPojo> pojo = null;
         try {
             pojo = KOP_POOL.borrow("example1");
@@ -242,7 +276,7 @@ public class Compare001Benchmark extends CompareBase {
     }
 
     @Benchmark
-    public void test09LitePool(Blackhole blackhole) {
+    public void test10LitePool(Blackhole blackhole) {
         DemoPojo pojo = null;
         try {
             pojo = LITE_POOL.acquire();
@@ -257,7 +291,7 @@ public class Compare001Benchmark extends CompareBase {
     }
 
     @Benchmark
-    public void test1001StormPotBlazePool(Blackhole blackhole) {
+    public void test1101StormPotBlazePool(Blackhole blackhole) {
         PooledSlotDemoPojo pojo = null;
         try {
             pojo = S_BLAZE_POOL.claim(STORM_POT_TIMEOUT);
@@ -272,7 +306,7 @@ public class Compare001Benchmark extends CompareBase {
     }
 
     @Benchmark
-    public void test1002StormPotQueuePool(Blackhole blackhole) {
+    public void test1102StormPotQueuePool(Blackhole blackhole) {
         PooledSlotDemoPojo pojo = null;
         try {
             pojo = S_QUEUE_POOL.claim(STORM_POT_TIMEOUT);
@@ -287,7 +321,7 @@ public class Compare001Benchmark extends CompareBase {
     }
 
     @Benchmark
-    public void test11ViburPool(Blackhole blackhole) {
+    public void test12ViburPool(Blackhole blackhole) {
         DemoPojo pojo = null;
         try {
             pojo = VIBUR_POOL.tryTake(100, TimeUnit.MILLISECONDS);

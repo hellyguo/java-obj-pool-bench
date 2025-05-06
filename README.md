@@ -8,6 +8,7 @@ try to compare all available object pool libraries
 - [`BeeOP`](https://github.com/Chris2018998/BeeOP)
 - [`commons-pool`](https://commons.apache.org/proper/commons-pool/)
 - [`commons-pool2`](https://commons.apache.org/proper/commons-pool/)
+- [`CoralPool`](https://github.com/coralblocks/CoralPool/)
 - [`ERASOFT Furious Object Pool`](https://code.google.com/archive/p/furious-objectpool/)
 - [`Fast Object Pool`](https://github.com/DanielYWoo/fast-object-pool)
 - [`frogspawn`](https://itcraft.cn/frogspawn/)
@@ -22,23 +23,26 @@ try to compare all available object pool libraries
 > `JVM` 开启参数 `-XX:-RestrictContended`
 
 ```verilog
-Benchmark                                     Mode  Cnt    Score     Error   Units
-Compare001Benchmark.test00New                thrpt    5  191.197 ± 185.102  ops/us
-Compare001Benchmark.test01BeeOP              thrpt    5   23.143 ±   6.302  ops/us
-Compare001Benchmark.test02BeeOP              thrpt    5   11.880 ±  12.909  ops/us
-Compare001Benchmark.test03CommonsPool        thrpt    5    2.682 ±   0.151  ops/us
-Compare001Benchmark.test04CommonsPool        thrpt    5    0.881 ±   0.104  ops/us
-Compare001Benchmark.test05CommonsPool        thrpt    5    4.119 ±   0.122  ops/us
-Compare001Benchmark.test06CommonsPool2       thrpt    5    1.729 ±   0.156  ops/us
-Compare001Benchmark.test07CommonsPool2       thrpt    5    0.042 ±   0.026  ops/us
-Compare001Benchmark.test08ERASOFTPool        thrpt    5    7.232 ±   0.916  ops/us
-Compare001Benchmark.test09FrogspawnPool      thrpt    5  115.128 ±  30.398  ops/us
-Compare001Benchmark.test10GOPool             thrpt    5    4.453 ±   0.337  ops/us
-Compare001Benchmark.test11KBPool             thrpt    5    2.263 ±   0.180  ops/us
-Compare001Benchmark.test12LitePool           thrpt    5    0.351 ±   0.118  ops/us
-Compare001Benchmark.test13StormPotBlazePool  thrpt    5   85.196 ±  14.715  ops/us
-Compare001Benchmark.test14StormPotQueuePool  thrpt    5    4.594 ±   1.015  ops/us
-Compare001Benchmark.test15ViburPool          thrpt    5    4.317 ±   0.478  ops/us
+Benchmark                                       Mode  Cnt    Score    Error   Units
+Compare001Benchmark.test00New                  thrpt    5  205.219 ± 90.634  ops/us
+Compare001Benchmark.test0101BeeOP              thrpt    5   24.990 ± 30.747  ops/us
+Compare001Benchmark.test0102BeeOP              thrpt    5   12.373 ±  2.314  ops/us
+Compare001Benchmark.test0201CommonsPool        thrpt    5    3.050 ±  0.187  ops/us
+Compare001Benchmark.test0202CommonsPool        thrpt    5    0.944 ±  0.084  ops/us
+Compare001Benchmark.test0203CommonsPool        thrpt    5    4.917 ±  0.223  ops/us
+Compare001Benchmark.test0301CommonsPool2       thrpt    5    1.936 ±  0.035  ops/us
+Compare001Benchmark.test0302CommonsPool2       thrpt    5    0.059 ±  0.006  ops/us
+Compare001Benchmark.test0401CoralArrayPool     thrpt    5   22.745 ±  1.376  ops/us
+Compare001Benchmark.test0402CoralLinkedPool    thrpt    5    8.302 ±  1.113  ops/us
+Compare001Benchmark.test05ERASOFTPool          thrpt    5    8.162 ±  0.319  ops/us
+Compare001Benchmark.test06FastObjectPool       thrpt    5   16.574 ± 17.230  ops/us
+Compare001Benchmark.test07FrogspawnPool        thrpt    5  137.792 ± 11.821  ops/us
+Compare001Benchmark.test08GOPool               thrpt    5    5.806 ±  0.506  ops/us
+Compare001Benchmark.test09KBPool               thrpt    5    2.952 ±  0.626  ops/us
+Compare001Benchmark.test10LitePool             thrpt    5    0.422 ±  0.044  ops/us
+Compare001Benchmark.test1101StormPotBlazePool  thrpt    5   96.361 ± 20.628  ops/us
+Compare001Benchmark.test1102StormPotQueuePool  thrpt    5    4.753 ±  0.592  ops/us
+Compare001Benchmark.test12ViburPool            thrpt    5    3.729 ±  0.169  ops/us
 ```
 
 ```verilog

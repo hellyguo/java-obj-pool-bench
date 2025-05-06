@@ -24,7 +24,8 @@ import cn.itcraft.frogspawn.ObjectsMemoryPool;
 import cn.itcraft.frogspawn.ObjectsMemoryPoolFactory;
 import cn.nextop.lite.pool.Pool;
 import cn.nextop.lite.pool.PoolBuilder;
-import nf.fr.eraasoft.pool.ObjectPool;
+import com.coralblocks.coralpool.ArrayObjectPool;
+import com.coralblocks.coralpool.LinkedObjectPool;
 import nf.fr.eraasoft.pool.PoolException;
 import nf.fr.eraasoft.pool.PoolSettings;
 import nf.fr.eraasoft.pool.PoolableObjectBase;
@@ -68,7 +69,9 @@ public class CompareBase {
     protected static final org.apache.commons.pool.impl.SoftReferenceObjectPool<DemoPojo> COMMONS_1_POOL_SOFT_REF;
     protected static final org.apache.commons.pool2.impl.GenericObjectPool<DemoPojo> COMMONS_2_POOL;
     protected static final org.apache.commons.pool2.impl.SoftReferenceObjectPool<DemoPojo> COMMONS_2_POOL_SOFT_REF;
-    protected static final ObjectPool<DemoPojo> ERASOFT_POOL;
+    protected static final com.coralblocks.coralpool.ObjectPool<DemoPojo> CORAL_ARRAY_POOL;
+    protected static final com.coralblocks.coralpool.ObjectPool<DemoPojo> CORAL_LINKED_POOL;
+    protected static final nf.fr.eraasoft.pool.ObjectPool<DemoPojo> ERASOFT_POOL;
     protected static final ObjectsMemoryPool<DemoPojo> FS_POOL =
             ObjectsMemoryPoolFactory.newPool(new DemoPojoCreator(), MAX_SIZE);
     protected static final org.bbottema.genericobjectpool.GenericObjectPool<DemoPojo> G_O_POOL;
@@ -126,13 +129,13 @@ public class CompareBase {
 
     static {
         try {
-            GenericObjectPoolConfig<DemoPojo> CONFIG = new GenericObjectPoolConfig<>();
-            CONFIG.setMaxTotal(MAX_SIZE);
-            CONFIG.setMaxIdle(MAX_SIZE);
-            CONFIG.setMinIdle(INITIAL_SIZE);
+            GenericObjectPoolConfig<DemoPojo> config = new GenericObjectPoolConfig<>();
+            config.setMaxTotal(MAX_SIZE);
+            config.setMaxIdle(MAX_SIZE);
+            config.setMinIdle(INITIAL_SIZE);
             COMMONS_2_POOL =
                     new org.apache.commons.pool2.impl.GenericObjectPool<>(
-                            new DemoPojoCommonsPooledObjectFactory(), CONFIG);
+                            new DemoPojoCommonsPooledObjectFactory(), config);
             COMMONS_2_POOL.preparePool();
         } catch (Exception e) {
             LOGGER.warn(e.getMessage(), e);
@@ -142,16 +145,34 @@ public class CompareBase {
 
     static {
         try {
-            GenericObjectPoolConfig<DemoPojo> CONFIG = new GenericObjectPoolConfig<>();
-            CONFIG.setMaxTotal(MAX_SIZE);
-            CONFIG.setMaxIdle(MAX_SIZE);
-            CONFIG.setMinIdle(INITIAL_SIZE);
+            GenericObjectPoolConfig<DemoPojo> config = new GenericObjectPoolConfig<>();
+            config.setMaxTotal(MAX_SIZE);
+            config.setMaxIdle(MAX_SIZE);
+            config.setMinIdle(INITIAL_SIZE);
             COMMONS_2_POOL_SOFT_REF = new org.apache.commons.pool2.impl.SoftReferenceObjectPool<>(
                     new DemoPojo2BasePoolableObjectFactory());
         } catch (Exception e) {
             LOGGER.warn(e.getMessage(), e);
             throw new RuntimeException(e);
         }
+    }
+
+    static {
+        // the pool can allocate more instances later, but it will start with 50 instances
+        final int preloadCount = 50;
+        // the pool can use a Builder, but it can also take a Class for creating instances through the default constructor
+        final Class<DemoPojo> klass = DemoPojo.class;
+        // Create your object pool
+        CORAL_ARRAY_POOL = new ArrayObjectPool<>(INITIAL_SIZE, preloadCount, klass);
+    }
+
+    static {
+        // the pool can allocate more instances later, but it will start with 50 instances
+        final int preloadCount = 50;
+        // the pool can use a Builder, but it can also take a Class for creating instances through the default constructor
+        final Class<DemoPojo> klass = DemoPojo.class;
+        // Create your object pool
+        CORAL_LINKED_POOL = new LinkedObjectPool<>(INITIAL_SIZE, preloadCount, klass);
     }
 
     static {

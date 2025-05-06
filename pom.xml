@@ -111,6 +111,12 @@
             <artifactId>commons-pool2</artifactId>
             <version>2.12.1</version>
         </dependency>
+        <!-- compare: coralpool -->
+        <dependency>
+            <groupId>com.github.coralblocks</groupId>
+            <artifactId>coralpool</artifactId>
+            <version>1.1.3</version>
+        </dependency>
         <!-- compare: fast-object-pool -->
         <dependency>
             <groupId>cn.danielw</groupId>
@@ -160,6 +166,13 @@
             <version>25.0</version>
         </dependency>
     </dependencies>
+
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
 
     <build>
         <plugins>
