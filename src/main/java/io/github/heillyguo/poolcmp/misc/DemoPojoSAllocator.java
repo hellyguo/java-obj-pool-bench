@@ -1,4 +1,4 @@
-package io.github.heillyguo.poolcmp;
+package io.github.heillyguo.poolcmp.misc;
 
 import stormpot.Allocator;
 import stormpot.Slot;

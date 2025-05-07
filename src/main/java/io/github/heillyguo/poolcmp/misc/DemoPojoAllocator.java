@@ -14,30 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.heillyguo.poolcmp;
+package io.github.heillyguo.poolcmp.misc;
+
+import io.github.heillyguo.poolcmp.domain.DemoPojo;
+import org.bbottema.genericobjectpool.Allocator;
 
 /**
  * @author Helly Guo
  * <p>
- * Created on 8/25/21 1:16 AM
+ * Created on 12/5/21 10:34 PM
  */
-public interface ValPojo {
-
-
-    int getVal1();
-
-    void setVal1(int val1);
-
-    long getVal2();
-
-    void setVal2(long val2);
-
-    double getVal3();
-
-    void setVal3(double val3);
-
-    String getVal4();
-
-    void setVal4(String val4);
-
+public class DemoPojoAllocator extends Allocator<DemoPojo> {
+    /**
+     * Initial creation and initialization.
+     * Called when claim comes or when pool is eagerly loading for core size.
+     */
+    @Override
+    public DemoPojo allocate() {
+        return new DemoPojo();
+    }
 }

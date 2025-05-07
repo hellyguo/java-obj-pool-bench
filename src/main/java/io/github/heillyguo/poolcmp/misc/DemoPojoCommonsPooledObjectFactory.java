@@ -14,22 +14,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.heillyguo.poolcmp;
+package io.github.heillyguo.poolcmp.misc;
 
-import org.bbottema.genericobjectpool.Allocator;
+import io.github.heillyguo.poolcmp.domain.DemoPojo;
+import org.apache.commons.pool2.PooledObject;
+import org.apache.commons.pool2.PooledObjectFactory;
 
 /**
  * @author Helly Guo
  * <p>
- * Created on 12/5/21 10:34 PM
+ * Created on 8/25/21 1:16 AM
  */
-public class DemoPojoAllocator extends Allocator<DemoPojo> {
-    /**
-     * Initial creation and initialization.
-     * Called when claim comes or when pool is eagerly loading for core size.
-     */
+public class DemoPojoCommonsPooledObjectFactory implements PooledObjectFactory<DemoPojo> {
+
     @Override
-    public DemoPojo allocate() {
+    public void activateObject(PooledObject<DemoPojo> pooledObject) throws Exception {
+    }
+
+    @Override
+    public void destroyObject(PooledObject<DemoPojo> pooledObject) throws Exception {
+    }
+
+    @Override
+    public PooledObject<DemoPojo> makeObject() throws Exception {
         return new DemoPojo();
+    }
+
+    @Override
+    public void passivateObject(PooledObject<DemoPojo> pooledObject) throws Exception {
+    }
+
+    @Override
+    public boolean validateObject(PooledObject<DemoPojo> pooledObject) {
+        return true;
     }
 }

@@ -17,6 +17,7 @@
 package io.github.heillyguo.poolcmp;
 
 import cn.beeop.BeeObjectHandle;
+import io.github.heillyguo.poolcmp.domain.DemoPojo;
 import org.bbottema.genericobjectpool.PoolableObject;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Fork;
@@ -30,6 +31,8 @@ import org.openjdk.jmh.infra.Blackhole;
 
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
+
+import static io.github.heillyguo.poolcmp.CompareConsts.ARRAY_SIZE;
 
 
 @State(Scope.Benchmark)

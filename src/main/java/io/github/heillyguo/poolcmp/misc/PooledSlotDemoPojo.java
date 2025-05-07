@@ -1,5 +1,6 @@
-package io.github.heillyguo.poolcmp;
+package io.github.heillyguo.poolcmp.misc;
 
+import io.github.heillyguo.poolcmp.domain.DemoPojo;
 import stormpot.Poolable;
 import stormpot.Slot;
 

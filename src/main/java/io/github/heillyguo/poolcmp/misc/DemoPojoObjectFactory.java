@@ -1,5 +1,6 @@
-package io.github.heillyguo.poolcmp;
+package io.github.heillyguo.poolcmp.misc;
 
+import io.github.heillyguo.poolcmp.domain.DemoPojo;
 import org.pacesys.kbop.IPoolObjectFactory;
 import org.pacesys.kbop.PoolKey;
 

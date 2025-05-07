@@ -26,6 +26,18 @@ import cn.nextop.lite.pool.Pool;
 import cn.nextop.lite.pool.PoolBuilder;
 import com.coralblocks.coralpool.ArrayObjectPool;
 import com.coralblocks.coralpool.LinkedObjectPool;
+import io.github.heillyguo.poolcmp.domain.DemoPojo;
+import io.github.heillyguo.poolcmp.misc.DemoPojo2BasePoolableObjectFactory;
+import io.github.heillyguo.poolcmp.misc.DemoPojoAllocator;
+import io.github.heillyguo.poolcmp.misc.DemoPojoBasePoolableObjectFactory;
+import io.github.heillyguo.poolcmp.misc.DemoPojoBeeObjectFactory;
+import io.github.heillyguo.poolcmp.misc.DemoPojoCommonsPooledObjectFactory;
+import io.github.heillyguo.poolcmp.misc.DemoPojoCreator;
+import io.github.heillyguo.poolcmp.misc.DemoPojoObjectFactory;
+import io.github.heillyguo.poolcmp.misc.DemoPojoSAllocator;
+import io.github.heillyguo.poolcmp.misc.DemoPojoViburPoolObjectFactory;
+import io.github.heillyguo.poolcmp.misc.PooledSlotDemoPojo;
+import io.github.heillyguo.poolcmp.misc.ValPojo;
 import nf.fr.eraasoft.pool.PoolException;
 import nf.fr.eraasoft.pool.PoolSettings;
 import nf.fr.eraasoft.pool.PoolableObjectBase;
@@ -52,15 +64,13 @@ import stormpot.Timeout;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
+import static io.github.heillyguo.poolcmp.CompareConsts.INITIAL_SIZE;
+import static io.github.heillyguo.poolcmp.CompareConsts.MAX_SIZE;
+
 @State(Scope.Benchmark)
 public class CompareBase {
 
     protected static final Logger LOGGER = LoggerFactory.getLogger(CompareBase.class);
-
-    protected static final int ARRAY_SIZE = 32;
-
-    private static final int INITIAL_SIZE = 2000;
-    private static final int MAX_SIZE = 3000;
 
     protected static final cn.beeop.pool.ObjectPool BEEOP_FAST_POOL;
     protected static final BeeObjectSource BEEOP_POOL;

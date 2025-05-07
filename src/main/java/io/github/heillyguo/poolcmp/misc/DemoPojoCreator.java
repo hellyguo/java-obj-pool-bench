@@ -14,9 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.heillyguo.poolcmp;
+package io.github.heillyguo.poolcmp.misc;
 
 import cn.itcraft.frogspawn.ObjectCreator;
+import io.github.heillyguo.poolcmp.domain.DemoPojo;
 
 /**
  * @author Helly Guo

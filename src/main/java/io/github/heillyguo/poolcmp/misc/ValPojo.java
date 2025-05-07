@@ -14,36 +14,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.heillyguo.poolcmp;
-
-import cn.beeop.RawObjectFactory;
+package io.github.heillyguo.poolcmp.misc;
 
 /**
  * @author Helly Guo
  * <p>
  * Created on 8/25/21 1:16 AM
  */
-public class DemoPojoBeeObjectFactory implements RawObjectFactory {
+public interface ValPojo {
 
-    @Override
-    public Object create() {
-        return new DemoPojo();
-    }
 
-    @Override
-    public void setDefault(Object o) {
-    }
+    int getVal1();
 
-    @Override
-    public void reset(Object o) {
-    }
+    void setVal1(int val1);
 
-    @Override
-    public boolean isValid(Object obj, int timeout) {
-        return true;
-    }
+    long getVal2();
 
-    @Override
-    public void destroy(Object o) {
-    }
+    void setVal2(long val2);
+
+    double getVal3();
+
+    void setVal3(double val3);
+
+    String getVal4();
+
+    void setVal4(String val4);
+
 }

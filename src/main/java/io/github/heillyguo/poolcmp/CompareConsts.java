@@ -16,35 +16,15 @@
  */
 package io.github.heillyguo.poolcmp;
 
-import org.apache.commons.pool2.PooledObject;
-import org.apache.commons.pool2.PooledObjectFactory;
+public final class CompareConsts {
 
-/**
- * @author Helly Guo
- * <p>
- * Created on 8/25/21 1:16 AM
- */
-public class DemoPojoCommonsPooledObjectFactory implements PooledObjectFactory<DemoPojo> {
+    public static final int ARRAY_SIZE = 32;
 
-    @Override
-    public void activateObject(PooledObject<DemoPojo> pooledObject) throws Exception {
+    public static final int INITIAL_SIZE = 2000;
+    public static final int MAX_SIZE = 3000;
+    public static final int PRELOAD_COUNT = 50;
+
+    private CompareConsts() {
     }
 
-    @Override
-    public void destroyObject(PooledObject<DemoPojo> pooledObject) throws Exception {
-    }
-
-    @Override
-    public PooledObject<DemoPojo> makeObject() throws Exception {
-        return new DemoPojo();
-    }
-
-    @Override
-    public void passivateObject(PooledObject<DemoPojo> pooledObject) throws Exception {
-    }
-
-    @Override
-    public boolean validateObject(PooledObject<DemoPojo> pooledObject) {
-        return true;
-    }
 }
