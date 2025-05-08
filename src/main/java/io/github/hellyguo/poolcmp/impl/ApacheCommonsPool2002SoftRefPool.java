@@ -16,12 +16,12 @@
  */
 package io.github.hellyguo.poolcmp.impl;
 
+import io.github.hellyguo.poolcmp.PojoCustomer;
 import io.github.hellyguo.poolcmp.PoolImplementor;
 import io.github.hellyguo.poolcmp.domain.DemoPojo;
 import io.github.hellyguo.poolcmp.misc.DemoPojo2BasePoolableObjectFactory;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.apache.commons.pool2.impl.SoftReferenceObjectPool;
-import org.openjdk.jmh.infra.Blackhole;
 
 import static io.github.hellyguo.poolcmp.CompareConsts.INITIAL_SIZE;
 import static io.github.hellyguo.poolcmp.CompareConsts.MAX_SIZE;
@@ -43,11 +43,11 @@ public class ApacheCommonsPool2002SoftRefPool implements PoolImplementor {
     }
 
     @Override
-    public void testPool(Blackhole blackhole) {
+    public void testPool(PojoCustomer customer) {
         DemoPojo pojo = null;
         try {
             pojo = COMMONS_2_POOL_SOFT_REF.borrowObject();
-            blackhole.consume(pojo);
+            customer.consume(pojo);
         } catch (Exception e) {
             //
         } finally {

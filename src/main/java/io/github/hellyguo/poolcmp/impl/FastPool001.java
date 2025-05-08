@@ -19,10 +19,10 @@ package io.github.hellyguo.poolcmp.impl;
 import cn.danielw.fop.ObjectPool;
 import cn.danielw.fop.PoolConfig;
 import cn.danielw.fop.Poolable;
+import io.github.hellyguo.poolcmp.PojoCustomer;
 import io.github.hellyguo.poolcmp.PoolImplementor;
 import io.github.hellyguo.poolcmp.domain.DemoPojo;
 import io.github.hellyguo.poolcmp.misc.DemoPojoObjectFastPoolFactory;
-import org.openjdk.jmh.infra.Blackhole;
 
 import static io.github.hellyguo.poolcmp.CompareConsts.MAX_SIZE;
 
@@ -37,11 +37,11 @@ public class FastPool001 implements PoolImplementor {
     }
 
     @Override
-    public void testPool(Blackhole blackhole) {
+    public void testPool(PojoCustomer customer) {
         Poolable<DemoPojo> pojo = null;
         try {
             pojo = FAST_POOL.borrowObject();
-            blackhole.consume(pojo);
+            customer.consume(pojo);
         } catch (Exception e) {
             //
         } finally {

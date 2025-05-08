@@ -22,7 +22,6 @@ import cn.beeop.pool.FastObjectPool;
 import cn.danielw.fop.ObjectFactory;
 import cn.itcraft.frogspawn.ObjectsMemoryPool;
 import cn.itcraft.frogspawn.ObjectsMemoryPoolFactory;
-import cn.nextop.lite.pool.Pool;
 import cn.nextop.lite.pool.PoolBuilder;
 import com.coralblocks.coralpool.ArrayObjectPool;
 import com.coralblocks.coralpool.LinkedObjectPool;
@@ -56,9 +55,6 @@ import org.slf4j.LoggerFactory;
 import org.vibur.objectpool.ConcurrentPool;
 import org.vibur.objectpool.PoolService;
 import org.vibur.objectpool.util.ConcurrentLinkedQueueCollection;
-import stormpot.BlazePool;
-import stormpot.Config;
-import stormpot.QueuePool;
 import stormpot.Timeout;
 
 import java.util.concurrent.Future;
@@ -87,9 +83,8 @@ public class CompareBase {
     protected static final org.bbottema.genericobjectpool.GenericObjectPool<DemoPojo> G_O_POOL;
     protected static final IKeyedObjectPool.Multi<String, DemoPojo> KOP_POOL =
             Pools.createMultiPool(new DemoPojoObjectFactory(), MAX_SIZE);
-    protected static final Pool<DemoPojo> LITE_POOL;
-    protected static final BlazePool<PooledSlotDemoPojo> S_BLAZE_POOL;
-    protected static final QueuePool<PooledSlotDemoPojo> S_QUEUE_POOL;
+    protected static final cn.nextop.lite.pool.Pool<DemoPojo> LITE_POOL;
+    protected static final stormpot.Pool<PooledSlotDemoPojo> SP_POOL;
     protected static final PoolService<DemoPojo> VIBUR_POOL =
             new ConcurrentPool<>(new ConcurrentLinkedQueueCollection<>(),
                                  new DemoPojoViburPoolObjectFactory(),
@@ -256,15 +251,8 @@ public class CompareBase {
     }
 
     static {
-        Config<PooledSlotDemoPojo> config = new Config<PooledSlotDemoPojo>().setAllocator(new DemoPojoSAllocator());
-        config.setSize(MAX_SIZE);
-        S_BLAZE_POOL = new BlazePool<>(config);
-    }
-
-    static {
-        Config<PooledSlotDemoPojo> config = new Config<PooledSlotDemoPojo>().setAllocator(new DemoPojoSAllocator());
-        config.setSize(MAX_SIZE);
-        S_QUEUE_POOL = new QueuePool<>(config);
+        DemoPojoSAllocator allocator = new DemoPojoSAllocator();
+        SP_POOL = stormpot.Pool.from(allocator).build();
     }
 
     @TearDown
@@ -286,8 +274,7 @@ public class CompareBase {
         shutdownSequence.get(10, TimeUnit.SECONDS);
         KOP_POOL.shutdown();
         LITE_POOL.stop(10, TimeUnit.SECONDS);
-        S_BLAZE_POOL.shutdown().await(new Timeout(10, TimeUnit.SECONDS));
-        S_QUEUE_POOL.shutdown().await(new Timeout(10, TimeUnit.SECONDS));
+        SP_POOL.shutdown().await(new Timeout(10, TimeUnit.SECONDS));
         VIBUR_POOL.close();
     }
 

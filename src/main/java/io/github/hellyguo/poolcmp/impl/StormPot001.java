@@ -16,36 +16,32 @@
  */
 package io.github.hellyguo.poolcmp.impl;
 
+import io.github.hellyguo.poolcmp.PojoCustomer;
 import io.github.hellyguo.poolcmp.PoolImplementor;
 import io.github.hellyguo.poolcmp.misc.DemoPojoSAllocator;
 import io.github.hellyguo.poolcmp.misc.PooledSlotDemoPojo;
-import org.openjdk.jmh.infra.Blackhole;
-import stormpot.BlazePool;
-import stormpot.Config;
+import stormpot.Pool;
 import stormpot.Timeout;
 
 import java.util.concurrent.TimeUnit;
 
-import static io.github.hellyguo.poolcmp.CompareConsts.MAX_SIZE;
+public class StormPot001 implements PoolImplementor {
 
-public class StormPot001BlazePool implements PoolImplementor {
-
-    protected static final BlazePool<PooledSlotDemoPojo> S_BLAZE_POOL;
+    protected static final Pool<PooledSlotDemoPojo> SP_POOL;
 
     private static final Timeout STORM_POT_TIMEOUT = new Timeout(2, TimeUnit.SECONDS);
 
     static {
-        Config<PooledSlotDemoPojo> config = new Config<PooledSlotDemoPojo>().setAllocator(new DemoPojoSAllocator());
-        config.setSize(MAX_SIZE);
-        S_BLAZE_POOL = new BlazePool<>(config);
+        DemoPojoSAllocator allocator = new DemoPojoSAllocator();
+        SP_POOL = Pool.from(allocator).build();
     }
 
     @Override
-    public void testPool(Blackhole blackhole) {
+    public void testPool(PojoCustomer customer) {
         PooledSlotDemoPojo pojo = null;
         try {
-            pojo = S_BLAZE_POOL.claim(STORM_POT_TIMEOUT);
-            blackhole.consume(pojo);
+            pojo = SP_POOL.claim(STORM_POT_TIMEOUT);
+            customer.consume(pojo);
         } catch (Exception e) {
             //
         } finally {
@@ -58,7 +54,7 @@ public class StormPot001BlazePool implements PoolImplementor {
     @Override
     public void shutdown() {
         try {
-            S_BLAZE_POOL.shutdown().await(new Timeout(10, TimeUnit.SECONDS));
+            SP_POOL.shutdown().await(new Timeout(10, TimeUnit.SECONDS));
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

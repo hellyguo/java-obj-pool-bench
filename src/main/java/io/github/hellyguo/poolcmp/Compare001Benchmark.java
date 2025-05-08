@@ -31,7 +31,7 @@ import java.util.concurrent.TimeUnit;
 
 
 @State(Scope.Benchmark)
-@Fork(value = 1, jvmArgsPrepend = {"-Xmx4G", "-Xms4G", "-XX:-RestrictContended"})
+@Fork(value = 1, jvmArgsPrepend = {"-Xmx4G", "-Xms4G"})
 @Threads(value = 8)
 @Warmup(iterations = 5, time = 200, timeUnit = TimeUnit.MILLISECONDS)
 @Measurement(iterations = 5, time = 100, timeUnit = TimeUnit.MILLISECONDS)
@@ -40,7 +40,7 @@ public class Compare001Benchmark {
 
     @Benchmark
     public void testPoolGetAndRelease(PoolImplParam param, Blackhole blackhole) {
-        param.desc.getImplementor().testPool(blackhole);
+        param.desc.getImplementor().testPool(blackhole::consume);
     }
 
     @TearDown

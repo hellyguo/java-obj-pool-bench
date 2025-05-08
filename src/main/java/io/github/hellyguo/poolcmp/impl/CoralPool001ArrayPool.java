@@ -18,9 +18,9 @@ package io.github.hellyguo.poolcmp.impl;
 
 import com.coralblocks.coralpool.ArrayObjectPool;
 import com.coralblocks.coralpool.ObjectPool;
+import io.github.hellyguo.poolcmp.PojoCustomer;
 import io.github.hellyguo.poolcmp.PoolImplementor;
 import io.github.hellyguo.poolcmp.domain.DemoPojo;
-import org.openjdk.jmh.infra.Blackhole;
 
 import static io.github.hellyguo.poolcmp.CompareConsts.INITIAL_SIZE;
 import static io.github.hellyguo.poolcmp.CompareConsts.PRELOAD_COUNT;
@@ -35,11 +35,11 @@ public class CoralPool001ArrayPool implements PoolImplementor {
     }
 
     @Override
-    public void testPool(Blackhole blackhole) {
+    public void testPool(PojoCustomer customer) {
         DemoPojo pojo = null;
         try {
             pojo = CORAL_ARRAY_POOL.get();
-            blackhole.consume(pojo);
+            customer.consume(pojo);
         } catch (Exception e) {
             //
         } finally {

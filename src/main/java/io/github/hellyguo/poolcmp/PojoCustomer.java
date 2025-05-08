@@ -16,9 +16,8 @@
  */
 package io.github.hellyguo.poolcmp;
 
-public interface PoolImplementor {
+@FunctionalInterface
+public interface PojoCustomer {
 
-    void testPool(PojoCustomer customer);
-
-    void shutdown();
+    void consume(Object target);
 }

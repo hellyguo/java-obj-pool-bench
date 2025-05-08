@@ -16,11 +16,11 @@
  */
 package io.github.hellyguo.poolcmp.impl;
 
+import io.github.hellyguo.poolcmp.PojoCustomer;
 import io.github.hellyguo.poolcmp.PoolImplementor;
 import io.github.hellyguo.poolcmp.domain.DemoPojo;
 import io.github.hellyguo.poolcmp.misc.DemoPojoBasePoolableObjectFactory;
 import org.apache.commons.pool.impl.SoftReferenceObjectPool;
-import org.openjdk.jmh.infra.Blackhole;
 
 public class ApacheCommonsPool003SoftRefPool implements PoolImplementor {
 
@@ -31,11 +31,11 @@ public class ApacheCommonsPool003SoftRefPool implements PoolImplementor {
     }
 
     @Override
-    public void testPool(Blackhole blackhole) {
+    public void testPool(PojoCustomer customer) {
         DemoPojo pojo = null;
         try {
             pojo = COMMONS_1_POOL_SOFT_REF.borrowObject();
-            blackhole.consume(pojo);
+            customer.consume(pojo);
         } catch (Exception e) {
             //
         } finally {

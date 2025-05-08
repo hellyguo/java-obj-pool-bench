@@ -44,12 +44,17 @@
         <dependency>
             <groupId>org.openjdk.jmh</groupId>
             <artifactId>jmh-core</artifactId>
-            <version>1.32</version>
+            <version>1.37</version>
         </dependency>
         <dependency>
             <groupId>org.openjdk.jmh</groupId>
             <artifactId>jmh-generator-annprocess</artifactId>
-            <version>1.32</version>
+            <version>1.37</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jacoco</groupId>
+            <artifactId>org.jacoco.agent</artifactId>
+            <version>0.8.13</version>
         </dependency>
         <!-- log -->
         <!-- slf4j -->
@@ -108,8 +113,8 @@
         <!-- compare: coralpool -->
         <dependency>
             <groupId>com.github.coralblocks</groupId>
-            <artifactId>coralpool</artifactId>
-            <version>1.1.3</version>
+            <artifactId>CoralPool</artifactId>
+            <version>1.4.1</version>
         </dependency>
         <!-- compare: fast-object-pool -->
         <dependency>
@@ -127,13 +132,13 @@
         <dependency>
             <groupId>com.github.bbottema</groupId>
             <artifactId>generic-object-pool</artifactId>
-            <version>2.2.1</version>
+            <version>2.2.2</version>
         </dependency>
-        <!-- compare: lite-pool -->
+        <!-- compare: jpuddle -->
         <dependency>
-            <groupId>cn.nextop</groupId>
-            <artifactId>lite-pool</artifactId>
-            <version>1.0.0-RC3</version>
+            <groupId>com.io7m.jpuddle</groupId>
+            <artifactId>com.io7m.jpuddle.core</artifactId>
+            <version>0.5.0</version>
         </dependency>
         <!-- compare: kbop -->
         <dependency>
@@ -141,23 +146,41 @@
             <artifactId>kbop</artifactId>
             <version>1.0.0</version>
         </dependency>
+        <!-- compare: NoMoreInstance -->
+        <dependency>
+            <groupId>com.github.YvanMazy</groupId>
+            <artifactId>NoMoreInstance</artifactId>
+            <version>786b2287c3</version>
+        </dependency>
+        <!-- compare: lite-pool -->
+        <dependency>
+            <groupId>cn.nextop</groupId>
+            <artifactId>lite-pool</artifactId>
+            <version>1.0.0-RC3</version>
+        </dependency>
         <!-- compare: objectpool -->
         <dependency>
             <groupId>nf.fr.eraasoft</groupId>
             <artifactId>objectpool</artifactId>
             <version>1.1.2</version>
         </dependency>
+        <!-- compare: simple-pool -->
+        <dependency>
+            <groupId>com.github.robtimus</groupId>
+            <artifactId>simple-pool</artifactId>
+            <version>1.0</version>
+        </dependency>
         <!-- compare: stormpot -->
         <dependency>
             <groupId>com.github.chrisvest</groupId>
             <artifactId>stormpot</artifactId>
-            <version>2.4.2</version>
+            <version>4.1</version>
         </dependency>
         <!-- compare: vibur-object-pool -->
         <dependency>
             <groupId>org.vibur</groupId>
             <artifactId>vibur-object-pool</artifactId>
-            <version>25.0</version>
+            <version>26.0</version>
         </dependency>
     </dependencies>
 
@@ -260,8 +283,8 @@
     </build>
 
     <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>

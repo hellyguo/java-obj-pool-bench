@@ -19,10 +19,10 @@ package io.github.hellyguo.poolcmp.impl;
 import cn.beeop.BeeObjectHandle;
 import cn.beeop.BeeObjectSource;
 import cn.beeop.BeeObjectSourceConfig;
+import io.github.hellyguo.poolcmp.PojoCustomer;
 import io.github.hellyguo.poolcmp.PoolImplementor;
 import io.github.hellyguo.poolcmp.misc.DemoPojoBeeObjectFactory;
 import io.github.hellyguo.poolcmp.misc.ValPojo;
-import org.openjdk.jmh.infra.Blackhole;
 
 import static io.github.hellyguo.poolcmp.CompareConsts.INITIAL_SIZE;
 import static io.github.hellyguo.poolcmp.CompareConsts.MAX_SIZE;
@@ -41,11 +41,11 @@ public class BeeOp002ObjectSource implements PoolImplementor {
     }
 
     @Override
-    public void testPool(Blackhole blackhole) {
+    public void testPool(PojoCustomer customer) {
         BeeObjectHandle handle = null;
         try {
             handle = BEEOP_POOL.getObject();
-            blackhole.consume(handle.getObjectProxy());
+            customer.consume(handle.getObjectProxy());
         } catch (Exception e) {
             //
         } finally {

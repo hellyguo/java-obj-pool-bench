@@ -16,12 +16,12 @@
  */
 package io.github.hellyguo.poolcmp.impl;
 
+import io.github.hellyguo.poolcmp.PojoCustomer;
 import io.github.hellyguo.poolcmp.PoolImplementor;
 import io.github.hellyguo.poolcmp.domain.DemoPojo;
 import io.github.hellyguo.poolcmp.misc.DemoPojoPoolableObjectBase;
 import nf.fr.eraasoft.pool.PoolSettings;
 import nf.fr.eraasoft.pool.impl.PoolControler;
-import org.openjdk.jmh.infra.Blackhole;
 
 import static io.github.hellyguo.poolcmp.CompareConsts.INITIAL_SIZE;
 import static io.github.hellyguo.poolcmp.CompareConsts.MAX_SIZE;
@@ -37,11 +37,11 @@ public class EraaSoftPool001 implements PoolImplementor {
     }
 
     @Override
-    public void testPool(Blackhole blackhole) {
+    public void testPool(PojoCustomer customer) {
         DemoPojo pojo = null;
         try {
             pojo = ERASOFT_POOL.getObj();
-            blackhole.consume(pojo);
+            customer.consume(pojo);
         } catch (Exception e) {
             //
         } finally {

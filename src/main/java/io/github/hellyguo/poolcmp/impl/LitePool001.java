@@ -18,9 +18,9 @@ package io.github.hellyguo.poolcmp.impl;
 
 import cn.nextop.lite.pool.Pool;
 import cn.nextop.lite.pool.PoolBuilder;
+import io.github.hellyguo.poolcmp.PojoCustomer;
 import io.github.hellyguo.poolcmp.PoolImplementor;
 import io.github.hellyguo.poolcmp.domain.DemoPojo;
-import org.openjdk.jmh.infra.Blackhole;
 
 import java.util.concurrent.TimeUnit;
 
@@ -48,11 +48,11 @@ public class LitePool001 implements PoolImplementor {
     }
 
     @Override
-    public void testPool(Blackhole blackhole) {
+    public void testPool(PojoCustomer customer) {
         DemoPojo pojo = null;
         try {
             pojo = LITE_POOL.acquire();
-            blackhole.consume(pojo);
+            customer.consume(pojo);
         } catch (Exception e) {
             //
         } finally {

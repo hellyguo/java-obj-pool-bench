@@ -36,12 +36,10 @@ public class PoolImplParam {
             "EraaSoftPool001",
             "FastPool001",
             "Frogspawn001",
-            "GenericObjectPool001",
             "JavaNew001",
             "KOPool001",
             "LitePool001",
-            "StormPot001BlazePool",
-            "StormPot002QueuePool",
+            "StormPot001",
             "ViburPool001",
     })
     public PoolImplDesc desc;
