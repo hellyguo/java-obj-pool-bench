@@ -41,6 +41,7 @@ public class PoolImplParam {
             "LitePool001",
             "NoMoreInstance001SweepClean",
             "NoMoreInstance002Clean",
+            "Recall001",
             "StormPot001",
             "ViburPool001",
     })

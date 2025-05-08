@@ -17,6 +17,7 @@ import io.github.hellyguo.poolcmp.impl.KOPool001;
 import io.github.hellyguo.poolcmp.impl.LitePool001;
 import io.github.hellyguo.poolcmp.impl.NoMoreInstance001SweepClean;
 import io.github.hellyguo.poolcmp.impl.NoMoreInstance002Clean;
+import io.github.hellyguo.poolcmp.impl.Recall001;
 import io.github.hellyguo.poolcmp.impl.StormPot001;
 import io.github.hellyguo.poolcmp.impl.ViburPool001;
 
@@ -45,6 +46,7 @@ public enum PoolImplDesc {
     LitePool001(new LitePool001()),
     NoMoreInstance001SweepClean(new NoMoreInstance001SweepClean()),
     NoMoreInstance002Clean(new NoMoreInstance002Clean()),
+    Recall001(new Recall001()),
     StormPot001(new StormPot001()),
     ViburPool001(new ViburPool001());
 
