@@ -26,7 +26,7 @@ import nf.fr.eraasoft.pool.impl.PoolControler;
 import static io.github.hellyguo.poolcmp.CompareConsts.INITIAL_SIZE;
 import static io.github.hellyguo.poolcmp.CompareConsts.MAX_SIZE;
 
-public class EraaSoftPool001 implements PoolImplementor {
+public class FuriousObjectPool001 implements PoolImplementor {
 
     protected static final nf.fr.eraasoft.pool.ObjectPool<DemoPojo> ERASOFT_POOL;
 
