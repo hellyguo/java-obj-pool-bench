@@ -11,6 +11,7 @@ import io.github.hellyguo.poolcmp.impl.CoralPool001ArrayPool;
 import io.github.hellyguo.poolcmp.impl.CoralPool002LinkedPool;
 import io.github.hellyguo.poolcmp.impl.EraaSoftPool001;
 import io.github.hellyguo.poolcmp.impl.FastPool001;
+import io.github.hellyguo.poolcmp.impl.FastPool002Disruptor;
 import io.github.hellyguo.poolcmp.impl.Frogspawn001;
 import io.github.hellyguo.poolcmp.impl.JavaNew001;
 import io.github.hellyguo.poolcmp.impl.KOPool001;
@@ -41,6 +42,7 @@ public enum PoolImplDesc {
     CoralPool002LinkedPool(new CoralPool002LinkedPool()),
     EraaSoftPool001(new EraaSoftPool001()),
     FastPool001(new FastPool001()),
+    FastPool002Disruptor(new FastPool002Disruptor()),
     Frogspawn001(new Frogspawn001()),
     KOPool001(new KOPool001()),
     LitePool001(new LitePool001()),
