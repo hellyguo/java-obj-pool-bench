@@ -53,9 +53,4 @@ public class ViburPool001 implements PoolImplementor {
         VIBUR_POOL.close();
     }
 
-    @Override
-    public String toString() {
-        return this.getClass().getSimpleName();
-    }
-
 }

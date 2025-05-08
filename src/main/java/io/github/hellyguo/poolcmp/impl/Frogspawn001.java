@@ -47,9 +47,4 @@ public class Frogspawn001 implements PoolImplementor {
     public void shutdown() {
     }
 
-    @Override
-    public String toString() {
-        return this.getClass().getSimpleName();
-    }
-
 }

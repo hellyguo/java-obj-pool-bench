@@ -14,6 +14,7 @@ try to compare all available object pool libraries, under **JVM 21**
 - [`frogspawn`](https://itcraft.cn/frogspawn/)
 - [`key bean pool`](https://github.com/gondor/kbop/)
 - [`lite-pool`](https://github.com/nextopcn/lite-pool)
+- [`NoMoreInstance`](https://github.com/YvanMazy/NoMoreInstance)
 - [`Stormpot Blaze/Queue Pool`](http://chrisvest.github.io/stormpot/)
 - [`vibur-object-pool`](https://github.com/vibur/vibur-object-pool)
 
@@ -23,23 +24,25 @@ try to compare all available object pool libraries, under **JVM 21**
 
 ```verilog
 Benchmark                                                            (desc)   Mode  Cnt    Score    Error   Units
-Compare001Benchmark.testPoolGetAndRelease     ApacheCommonsPool001StackPool  thrpt    5    3.209 ±  0.165  ops/us
-Compare001Benchmark.testPoolGetAndRelease          ApacheCommonsPool002Pool  thrpt    5    0.949 ±  0.704  ops/us
-Compare001Benchmark.testPoolGetAndRelease   ApacheCommonsPool003SoftRefPool  thrpt    5    3.124 ±  0.824  ops/us
-Compare001Benchmark.testPoolGetAndRelease         ApacheCommonsPool2001Pool  thrpt    5    1.682 ±  0.209  ops/us
-Compare001Benchmark.testPoolGetAndRelease  ApacheCommonsPool2002SoftRefPool  thrpt    5    0.034 ±  0.008  ops/us
-Compare001Benchmark.testPoolGetAndRelease                  BeeOp001FastPool  thrpt    5   36.595 ± 20.279  ops/us
-Compare001Benchmark.testPoolGetAndRelease              BeeOp002ObjectSource  thrpt    5   18.224 ±  3.181  ops/us
-Compare001Benchmark.testPoolGetAndRelease             CoralPool001ArrayPool  thrpt    5    1.235 ±  0.262  ops/us
-Compare001Benchmark.testPoolGetAndRelease            CoralPool002LinkedPool  thrpt    5   15.141 ±  0.905  ops/us
-Compare001Benchmark.testPoolGetAndRelease                   EraaSoftPool001  thrpt    5    7.497 ±  1.323  ops/us
-Compare001Benchmark.testPoolGetAndRelease                       FastPool001  thrpt    5   15.941 ±  9.477  ops/us
-Compare001Benchmark.testPoolGetAndRelease                      Frogspawn001  thrpt    5  147.943 ± 35.777  ops/us
-Compare001Benchmark.testPoolGetAndRelease                        JavaNew001  thrpt    5  322.181 ± 70.937  ops/us
-Compare001Benchmark.testPoolGetAndRelease                         KOPool001  thrpt    5    2.315 ±  0.340  ops/us
-Compare001Benchmark.testPoolGetAndRelease                       LitePool001  thrpt    5  123.492 ± 37.044  ops/us
-Compare001Benchmark.testPoolGetAndRelease                       StormPot001  thrpt    5   55.383 ± 15.792  ops/us
-Compare001Benchmark.testPoolGetAndRelease                      ViburPool001  thrpt    5    4.619 ±  0.523  ops/us
+Compare001Benchmark.testPoolGetAndRelease     ApacheCommonsPool001StackPool  thrpt    5    3.498 ±  0.323  ops/us
+Compare001Benchmark.testPoolGetAndRelease          ApacheCommonsPool002Pool  thrpt    5    0.876 ±  0.240  ops/us
+Compare001Benchmark.testPoolGetAndRelease   ApacheCommonsPool003SoftRefPool  thrpt    5    3.579 ±  1.079  ops/us
+Compare001Benchmark.testPoolGetAndRelease         ApacheCommonsPool2001Pool  thrpt    5    1.677 ±  0.109  ops/us
+Compare001Benchmark.testPoolGetAndRelease  ApacheCommonsPool2002SoftRefPool  thrpt    5    0.043 ±  0.023  ops/us
+Compare001Benchmark.testPoolGetAndRelease                  BeeOp001FastPool  thrpt    5   41.345 ±  5.385  ops/us
+Compare001Benchmark.testPoolGetAndRelease              BeeOp002ObjectSource  thrpt    5   16.782 ±  6.023  ops/us
+Compare001Benchmark.testPoolGetAndRelease             CoralPool001ArrayPool  thrpt    5    1.215 ±  0.352  ops/us
+Compare001Benchmark.testPoolGetAndRelease            CoralPool002LinkedPool  thrpt    5   12.837 ±  3.524  ops/us
+Compare001Benchmark.testPoolGetAndRelease                   EraaSoftPool001  thrpt    5    8.481 ±  1.492  ops/us
+Compare001Benchmark.testPoolGetAndRelease                       FastPool001  thrpt    5   22.677 ± 47.170  ops/us
+Compare001Benchmark.testPoolGetAndRelease                      Frogspawn001  thrpt    5  142.799 ± 39.825  ops/us
+Compare001Benchmark.testPoolGetAndRelease                        JavaNew001  thrpt    5  298.461 ± 80.669  ops/us
+Compare001Benchmark.testPoolGetAndRelease                         KOPool001  thrpt    5    2.118 ±  0.260  ops/us
+Compare001Benchmark.testPoolGetAndRelease                       LitePool001  thrpt    5  135.093 ± 25.988  ops/us
+Compare001Benchmark.testPoolGetAndRelease       NoMoreInstance001SweepClean  thrpt    5  302.087 ± 32.272  ops/us
+Compare001Benchmark.testPoolGetAndRelease            NoMoreInstance002Clean  thrpt    5    3.076 ±  0.725  ops/us
+Compare001Benchmark.testPoolGetAndRelease                       StormPot001  thrpt    5   52.248 ±  6.214  ops/us
+Compare001Benchmark.testPoolGetAndRelease                      ViburPool001  thrpt    5    4.365 ±  0.428  ops/us
 ```
 
 ```verilog
@@ -55,5 +58,6 @@ Compare002Benchmark.test6ViburPoolOneRequestMultiTimes      thrpt    5    140.15
 
 ## 结论
 
-1. 逐个使用，建议使用：`frogspawn`/`stormpot`(`blaze pool`)
+1. 逐个使用，建议使用：`frogspawn`/`LitePool`
 2. 一批使用，建议使用：`BeeOP`
+3. `NoMoreInstance001SweepClean` 相当于 `JavaNew`，所以快，但 `GC` 不友好

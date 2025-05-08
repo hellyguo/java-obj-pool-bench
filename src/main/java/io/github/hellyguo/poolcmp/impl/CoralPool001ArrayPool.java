@@ -55,9 +55,4 @@ public class CoralPool001ArrayPool implements PoolImplementor {
     public void shutdown() {
     }
 
-    @Override
-    public String toString() {
-        return this.getClass().getSimpleName();
-    }
-
 }

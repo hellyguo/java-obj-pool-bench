@@ -68,9 +68,4 @@ public class BeeOp001FastPool implements PoolImplementor {
         BEEOP_FAST_POOL.close();
     }
 
-    @Override
-    public String toString() {
-        return this.getClass().getSimpleName();
-    }
-
 }

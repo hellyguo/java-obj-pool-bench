@@ -68,9 +68,4 @@ public class ApacheCommonsPool2002SoftRefPool implements PoolImplementor {
         }
     }
 
-    @Override
-    public String toString() {
-        return this.getClass().getSimpleName();
-    }
-
 }

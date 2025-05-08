@@ -67,9 +67,4 @@ public class LitePool001 implements PoolImplementor {
         LITE_POOL.stop(10, TimeUnit.SECONDS);
     }
 
-    @Override
-    public String toString() {
-        return this.getClass().getSimpleName();
-    }
-
 }

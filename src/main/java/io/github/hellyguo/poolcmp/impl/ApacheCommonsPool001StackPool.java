@@ -58,9 +58,4 @@ public class ApacheCommonsPool001StackPool implements PoolImplementor {
             throw new RuntimeException(e);
         }
     }
-
-    @Override
-    public String toString() {
-        return this.getClass().getSimpleName();
-    }
 }

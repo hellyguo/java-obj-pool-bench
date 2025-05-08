@@ -58,9 +58,4 @@ public class ApacheCommonsPool002Pool implements PoolImplementor {
         }
     }
 
-    @Override
-    public String toString() {
-        return this.getClass().getSimpleName();
-    }
-
 }

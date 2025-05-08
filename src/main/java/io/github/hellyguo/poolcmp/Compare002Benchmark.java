@@ -36,7 +36,7 @@ import static io.github.hellyguo.poolcmp.CompareConsts.ARRAY_SIZE;
 
 
 @State(Scope.Benchmark)
-@Fork(value = 1, jvmArgsPrepend = {"-Xmx400m", "-Xms400m", "-XX:-RestrictContended"})
+@Fork(value = 1, jvmArgsPrepend = {"-Xmx400m", "-Xms400m"})
 @Threads(value = 8)
 @Warmup(iterations = 10, time = 1, timeUnit = TimeUnit.SECONDS)
 @Measurement(iterations = 5, time = 100, timeUnit = TimeUnit.MILLISECONDS)

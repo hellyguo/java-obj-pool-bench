@@ -52,9 +52,4 @@ public class KOPool001 implements PoolImplementor {
         KOP_POOL.shutdown();
     }
 
-    @Override
-    public String toString() {
-        return this.getClass().getSimpleName();
-    }
-
 }

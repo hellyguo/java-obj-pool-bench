@@ -39,6 +39,8 @@ public class PoolImplParam {
             "JavaNew001",
             "KOPool001",
             "LitePool001",
+            "NoMoreInstance001SweepClean",
+            "NoMoreInstance002Clean",
             "StormPot001",
             "ViburPool001",
     })

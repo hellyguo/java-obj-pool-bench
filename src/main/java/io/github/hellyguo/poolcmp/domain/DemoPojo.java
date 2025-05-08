@@ -194,4 +194,12 @@ public class DemoPojo implements ValPojo, PooledObject<DemoPojo>, Resettable {
                 ", val4='" + val4 + '\'' +
                 '}';
     }
+
+    public DemoPojo resetThis() {
+        this.val1 = 0;
+        this.val2 = 0L;
+        this.val3 = 0D;
+        this.val4 = "";
+        return this;
+    }
 }

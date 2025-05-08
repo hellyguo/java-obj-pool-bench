@@ -55,9 +55,4 @@ public class EraaSoftPool001 implements PoolImplementor {
         PoolControler.shutdown();
     }
 
-    @Override
-    public String toString() {
-        return this.getClass().getSimpleName();
-    }
-
 }

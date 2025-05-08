@@ -64,9 +64,4 @@ public class BeeOp002ObjectSource implements PoolImplementor {
         BEEOP_POOL.close();
     }
 
-    @Override
-    public String toString() {
-        return this.getClass().getSimpleName();
-    }
-
 }

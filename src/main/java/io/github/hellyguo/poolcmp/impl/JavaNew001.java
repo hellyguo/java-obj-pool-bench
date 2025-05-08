@@ -19,9 +19,4 @@ public class JavaNew001 implements PoolImplementor {
     @Override
     public void shutdown() {
     }
-
-    @Override
-    public String toString() {
-        return this.getClass().getSimpleName();
-    }
 }

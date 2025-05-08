@@ -16,43 +16,41 @@
  */
 package io.github.hellyguo.poolcmp.impl;
 
-import com.coralblocks.coralpool.LinkedObjectPool;
-import com.coralblocks.coralpool.ObjectPool;
+import be.yvanmazy.nomoreinstance.Cleanable;
+import be.yvanmazy.nomoreinstance.CleanablePool;
+import be.yvanmazy.nomoreinstance.Pool;
+import be.yvanmazy.nomoreinstance.PoolConcurrency;
 import io.github.hellyguo.poolcmp.PojoCustomer;
 import io.github.hellyguo.poolcmp.PoolImplementor;
 import io.github.hellyguo.poolcmp.domain.DemoPojo;
 
-import static io.github.hellyguo.poolcmp.CompareConsts.INITIAL_SIZE;
-import static io.github.hellyguo.poolcmp.CompareConsts.PRELOAD_COUNT;
+import static io.github.hellyguo.poolcmp.CompareConsts.MAX_SIZE;
 
-public class CoralPool002LinkedPool implements PoolImplementor {
+public class NoMoreInstance002Clean implements PoolImplementor {
 
-    protected static final ObjectPool<DemoPojo> CORAL_LINKED_POOL;
-
-    static {
-        final Class<DemoPojo> klass = DemoPojo.class;
-        CORAL_LINKED_POOL = new LinkedObjectPool<>(INITIAL_SIZE, PRELOAD_COUNT, klass);
-    }
+    protected static final CleanablePool<DemoPojo> NMI_POOL =
+            Pool.<DemoPojo>newBuilder()
+                // Optional object creation supplier
+                .supplier(DemoPojo::new)
+                // Optional cleaner for after use
+                .cleaner(DemoPojo::resetThis)
+                // Pool concurrency level
+                .concurrency(PoolConcurrency.LOCK_FREE)
+                // Build a SweepCleanablePool
+                .build(DemoPojo.class, MAX_SIZE);
 
     @Override
     public void testPool(PojoCustomer customer) {
-        DemoPojo pojo = null;
-        try {
-            pojo = CORAL_LINKED_POOL.get();
-            customer.consume(pojo);
+        try (final Cleanable<DemoPojo> cleanable = NMI_POOL.get()) {
+            customer.consume(cleanable.value());
         } catch (Exception e) {
             //
-        } finally {
-            try {
-                CORAL_LINKED_POOL.release(pojo);
-            } catch (Exception e) {
-                //
-            }
         }
     }
 
     @Override
     public void shutdown() {
+        NMI_POOL.cleanAll();
     }
 
 }

@@ -60,9 +60,4 @@ public class StormPot001 implements PoolImplementor {
         }
     }
 
-    @Override
-    public String toString() {
-        return this.getClass().getSimpleName();
-    }
-
 }
