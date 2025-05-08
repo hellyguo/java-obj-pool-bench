@@ -26,6 +26,11 @@ import org.openjdk.jmh.annotations.TearDown;
 import org.openjdk.jmh.annotations.Threads;
 import org.openjdk.jmh.annotations.Warmup;
 import org.openjdk.jmh.infra.Blackhole;
+import org.openjdk.jmh.profile.GCProfiler;
+import org.openjdk.jmh.runner.Runner;
+import org.openjdk.jmh.runner.RunnerException;
+import org.openjdk.jmh.runner.options.Options;
+import org.openjdk.jmh.runner.options.OptionsBuilder;
 
 import java.util.concurrent.TimeUnit;
 
@@ -38,8 +43,16 @@ import java.util.concurrent.TimeUnit;
 @OutputTimeUnit(TimeUnit.MICROSECONDS)
 public class Compare001Benchmark {
 
+    public static void main(String[] args) throws RunnerException {
+        Options opt = new OptionsBuilder()
+                .include(Compare001Benchmark.class.getSimpleName())
+                .addProfiler(GCProfiler.class)
+                .build();
+        new Runner(opt).run();
+    }
+
     @Benchmark
-    public void testPoolGetAndRelease(PoolImplParam param, Blackhole blackhole) {
+    public void test(PoolImplParam param, Blackhole blackhole) {
         param.desc.getImplementor().testPool(blackhole::consume);
     }
 
