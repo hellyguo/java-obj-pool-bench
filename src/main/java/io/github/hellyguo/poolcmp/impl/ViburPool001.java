@@ -16,10 +16,10 @@
  */
 package io.github.hellyguo.poolcmp.impl;
 
+import io.github.hellyguo.poolcmp.PojoCustomer;
 import io.github.hellyguo.poolcmp.PoolImplementor;
 import io.github.hellyguo.poolcmp.domain.DemoPojo;
 import io.github.hellyguo.poolcmp.misc.DemoPojoViburPoolObjectFactory;
-import org.openjdk.jmh.infra.Blackhole;
 import org.vibur.objectpool.ConcurrentPool;
 import org.vibur.objectpool.PoolService;
 import org.vibur.objectpool.util.ConcurrentLinkedQueueCollection;
@@ -36,11 +36,11 @@ public class ViburPool001 implements PoolImplementor {
                                  INITIAL_SIZE, MAX_SIZE, false);
 
     @Override
-    public void testPool(Blackhole blackhole) {
+    public void testPool(PojoCustomer customer) {
         DemoPojo pojo = null;
         try {
             pojo = VIBUR_POOL.tryTake(100, TimeUnit.MILLISECONDS);
-            blackhole.consume(pojo);
+            customer.consume(pojo);
         } catch (Exception e) {
             //
         } finally {
@@ -51,11 +51,6 @@ public class ViburPool001 implements PoolImplementor {
     @Override
     public void shutdown() {
         VIBUR_POOL.close();
-    }
-
-    @Override
-    public String toString() {
-        return this.getClass().getSimpleName();
     }
 
 }

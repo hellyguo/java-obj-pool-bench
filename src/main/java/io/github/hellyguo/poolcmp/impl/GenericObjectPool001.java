@@ -16,6 +16,7 @@
  */
 package io.github.hellyguo.poolcmp.impl;
 
+import io.github.hellyguo.poolcmp.PojoCustomer;
 import io.github.hellyguo.poolcmp.PoolImplementor;
 import io.github.hellyguo.poolcmp.domain.DemoPojo;
 import io.github.hellyguo.poolcmp.misc.DemoPojoAllocator;
@@ -23,7 +24,6 @@ import org.bbottema.genericobjectpool.GenericObjectPool;
 import org.bbottema.genericobjectpool.PoolConfig;
 import org.bbottema.genericobjectpool.PoolableObject;
 import org.bbottema.genericobjectpool.expirypolicies.TimeoutSinceLastAllocationExpirationPolicy;
-import org.openjdk.jmh.infra.Blackhole;
 
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -51,13 +51,13 @@ public class GenericObjectPool001 implements PoolImplementor {
     }
 
     @Override
-    public void testPool(Blackhole blackhole) {
+    public void testPool(PojoCustomer customer) {
         PoolableObject<DemoPojo> holder = null;
         try {
             // null if timed out
             holder = G_O_POOL.claim(1, TimeUnit.SECONDS);
             if (holder != null) {
-                blackhole.consume(holder.getAllocatedObject());
+                customer.consume(holder.getAllocatedObject());
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -79,11 +79,6 @@ public class GenericObjectPool001 implements PoolImplementor {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-    }
-
-    @Override
-    public String toString() {
-        return this.getClass().getSimpleName();
     }
 
 }

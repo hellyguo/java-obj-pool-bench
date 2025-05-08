@@ -40,7 +40,7 @@ public class Compare001Benchmark {
 
     @Benchmark
     public void testPoolGetAndRelease(PoolImplParam param, Blackhole blackhole) {
-        param.desc.getImplementor().testPool(blackhole);
+        param.desc.getImplementor().testPool(blackhole::consume);
     }
 
     @TearDown

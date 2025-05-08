@@ -16,10 +16,10 @@
  */
 package io.github.hellyguo.poolcmp.impl;
 
+import io.github.hellyguo.poolcmp.PojoCustomer;
 import io.github.hellyguo.poolcmp.PoolImplementor;
 import io.github.hellyguo.poolcmp.misc.DemoPojoSAllocator;
 import io.github.hellyguo.poolcmp.misc.PooledSlotDemoPojo;
-import org.openjdk.jmh.infra.Blackhole;
 import stormpot.Config;
 import stormpot.QueuePool;
 import stormpot.Timeout;
@@ -41,11 +41,11 @@ public class StormPot002QueuePool implements PoolImplementor {
     }
 
     @Override
-    public void testPool(Blackhole blackhole) {
+    public void testPool(PojoCustomer customer) {
         PooledSlotDemoPojo pojo = null;
         try {
             pojo = S_QUEUE_POOL.claim(STORM_POT_TIMEOUT);
-            blackhole.consume(pojo);
+            customer.consume(pojo);
         } catch (Exception e) {
             //
         } finally {
@@ -62,11 +62,6 @@ public class StormPot002QueuePool implements PoolImplementor {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    @Override
-    public String toString() {
-        return this.getClass().getSimpleName();
     }
 
 }

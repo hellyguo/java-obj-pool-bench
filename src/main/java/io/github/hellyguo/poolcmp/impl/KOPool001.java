@@ -16,10 +16,10 @@
  */
 package io.github.hellyguo.poolcmp.impl;
 
+import io.github.hellyguo.poolcmp.PojoCustomer;
 import io.github.hellyguo.poolcmp.PoolImplementor;
 import io.github.hellyguo.poolcmp.domain.DemoPojo;
 import io.github.hellyguo.poolcmp.misc.DemoPojoObjectFactory;
-import org.openjdk.jmh.infra.Blackhole;
 import org.pacesys.kbop.IKeyedObjectPool;
 import org.pacesys.kbop.IPooledObject;
 import org.pacesys.kbop.Pools;
@@ -32,11 +32,11 @@ public class KOPool001 implements PoolImplementor {
             Pools.createMultiPool(new DemoPojoObjectFactory(), MAX_SIZE);
 
     @Override
-    public void testPool(Blackhole blackhole) {
+    public void testPool(PojoCustomer customer) {
         IPooledObject<DemoPojo> pojo = null;
         try {
             pojo = KOP_POOL.borrow("example1");
-            blackhole.consume(pojo);
+            customer.consume(pojo);
         } catch (Exception e) {
             //
         } finally {
@@ -50,11 +50,6 @@ public class KOPool001 implements PoolImplementor {
     @Override
     public void shutdown() {
         KOP_POOL.shutdown();
-    }
-
-    @Override
-    public String toString() {
-        return this.getClass().getSimpleName();
     }
 
 }

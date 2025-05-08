@@ -18,10 +18,10 @@ package io.github.hellyguo.poolcmp.impl;
 
 import cn.itcraft.frogspawn.ObjectsMemoryPool;
 import cn.itcraft.frogspawn.ObjectsMemoryPoolFactory;
+import io.github.hellyguo.poolcmp.PojoCustomer;
 import io.github.hellyguo.poolcmp.PoolImplementor;
 import io.github.hellyguo.poolcmp.domain.DemoPojo;
 import io.github.hellyguo.poolcmp.misc.DemoPojoCreator;
-import org.openjdk.jmh.infra.Blackhole;
 
 import static io.github.hellyguo.poolcmp.CompareConsts.MAX_SIZE;
 
@@ -31,11 +31,11 @@ public class Frogspawn001 implements PoolImplementor {
             ObjectsMemoryPoolFactory.newPool(new DemoPojoCreator(), MAX_SIZE);
 
     @Override
-    public void testPool(Blackhole blackhole) {
+    public void testPool(PojoCustomer customer) {
         DemoPojo pojo = null;
         try {
             pojo = FS_POOL.fetch();
-            blackhole.consume(pojo);
+            customer.consume(pojo);
         } catch (Exception e) {
             //
         } finally {
@@ -45,11 +45,6 @@ public class Frogspawn001 implements PoolImplementor {
 
     @Override
     public void shutdown() {
-    }
-
-    @Override
-    public String toString() {
-        return this.getClass().getSimpleName();
     }
 
 }

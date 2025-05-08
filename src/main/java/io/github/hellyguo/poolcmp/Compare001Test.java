@@ -16,10 +16,25 @@
  */
 package io.github.hellyguo.poolcmp;
 
-public interface PoolImplementor {
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Test;
 
-    void testPool(PojoCustomer customer);
+public class Compare001Test {
 
-    void shutdown();
+    private static final PojoCustomer POJO_CUSTOMER = target -> {
+    };
 
+    @Test
+    public void testPoolGetAndRelease() {
+        for (PoolImplDesc desc : PoolImplDesc.values()) {
+            desc.getImplementor().testPool(POJO_CUSTOMER);
+        }
+    }
+
+    @AfterAll
+    public static void tearDownAll() {
+        for (PoolImplDesc desc : PoolImplDesc.values()) {
+            desc.getImplementor().shutdown();
+        }
+    }
 }

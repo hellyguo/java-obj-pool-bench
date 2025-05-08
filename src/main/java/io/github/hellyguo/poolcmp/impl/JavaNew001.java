@@ -1,8 +1,8 @@
 package io.github.hellyguo.poolcmp.impl;
 
+import io.github.hellyguo.poolcmp.PojoCustomer;
 import io.github.hellyguo.poolcmp.PoolImplementor;
 import io.github.hellyguo.poolcmp.domain.DemoPojo;
-import org.openjdk.jmh.infra.Blackhole;
 
 /**
  * @author Helly Guo
@@ -12,16 +12,11 @@ import org.openjdk.jmh.infra.Blackhole;
 public class JavaNew001 implements PoolImplementor {
 
     @Override
-    public void testPool(Blackhole blackhole) {
-        blackhole.consume(new DemoPojo());
+    public void testPool(PojoCustomer customer) {
+        customer.consume(new DemoPojo());
     }
 
     @Override
     public void shutdown() {
-    }
-
-    @Override
-    public String toString() {
-        return this.getClass().getSimpleName();
     }
 }
