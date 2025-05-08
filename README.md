@@ -2,6 +2,8 @@
 
 try to compare all available object pool libraries, under **JVM 21**
 
+> this is the result for JVM9+. If need the result for JVM8, please switch to branch `jvm8`.
+
 ## 对比测试结果
 
 - just `new`
