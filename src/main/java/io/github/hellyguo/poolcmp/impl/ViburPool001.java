@@ -24,7 +24,9 @@ import org.vibur.objectpool.ConcurrentPool;
 import org.vibur.objectpool.PoolService;
 import org.vibur.objectpool.util.ConcurrentLinkedQueueCollection;
 
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 
 import static io.github.hellyguo.poolcmp.CompareConsts.INITIAL_SIZE;
 import static io.github.hellyguo.poolcmp.CompareConsts.MAX_SIZE;
@@ -34,6 +36,16 @@ public class ViburPool001 implements PoolImplementor {
     protected static final PoolService<DemoPojo> VIBUR_POOL =
             new ConcurrentPool<>(new ConcurrentLinkedQueueCollection<>(), new DemoPojoViburPoolObjectFactory(),
                                  INITIAL_SIZE, MAX_SIZE, false);
+
+    private static final Consumer<DemoPojo> RELEASER = pojo -> {
+        try {
+            if (pojo != null) {
+                VIBUR_POOL.restore(pojo);
+            }
+        } catch (Exception e) {
+            //
+        }
+    };
 
     @Override
     public void testPool(PojoCustomer customer) {
@@ -45,6 +57,20 @@ public class ViburPool001 implements PoolImplementor {
             //
         } finally {
             VIBUR_POOL.restore(pojo);
+        }
+    }
+
+    @Override
+    public void testPoolBatch(PojoCustomer customer, DemoPojo[] pojoArray, int batchSize) {
+        try {
+            for (int i = 0; i < batchSize; i++) {
+                pojoArray[i] = VIBUR_POOL.tryTake(100, TimeUnit.MILLISECONDS);
+            }
+            customer.consume(pojoArray);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            Arrays.stream(pojoArray).forEach(RELEASER);
         }
     }
 

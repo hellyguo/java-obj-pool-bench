@@ -18,14 +18,18 @@ package io.github.hellyguo.poolcmp.impl;
 
 import io.github.hellyguo.poolcmp.PojoCustomer;
 import io.github.hellyguo.poolcmp.PoolImplementor;
+import io.github.hellyguo.poolcmp.domain.DemoPojo;
 import io.github.hellyguo.poolcmp.misc.DemoPojoSAllocator;
 import io.github.hellyguo.poolcmp.misc.PooledSlotDemoPojo;
 import stormpot.BlazePool;
 import stormpot.Config;
 import stormpot.Timeout;
 
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 
+import static io.github.hellyguo.poolcmp.CompareConsts.ARRAY_SIZE;
 import static io.github.hellyguo.poolcmp.CompareConsts.MAX_SIZE;
 
 public class StormPot001BlazePool implements PoolImplementor {
@@ -40,6 +44,19 @@ public class StormPot001BlazePool implements PoolImplementor {
         S_BLAZE_POOL = new BlazePool<>(config);
     }
 
+    private static final Consumer<PooledSlotDemoPojo> RELEASER = pojo -> {
+        try {
+            if (pojo != null) {
+                pojo.release();
+            }
+        } catch (Exception e) {
+            //
+        }
+    };
+
+    private static final ThreadLocal<PooledSlotDemoPojo[]> WRAP_LOCAL =
+            ThreadLocal.withInitial(() -> new PooledSlotDemoPojo[ARRAY_SIZE]);
+
     @Override
     public void testPool(PojoCustomer customer) {
         PooledSlotDemoPojo pojo = null;
@@ -52,6 +69,21 @@ public class StormPot001BlazePool implements PoolImplementor {
             if (pojo != null) {
                 pojo.release();
             }
+        }
+    }
+
+    @Override
+    public void testPoolBatch(PojoCustomer customer, DemoPojo[] pojoArray, int batchSize) {
+        PooledSlotDemoPojo[] array = WRAP_LOCAL.get();
+        try {
+            for (int i = 0; i < batchSize; i++) {
+                array[i] = S_BLAZE_POOL.claim(STORM_POT_TIMEOUT);
+            }
+            customer.consume(array);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            Arrays.stream(array).forEach(RELEASER);
         }
     }
 

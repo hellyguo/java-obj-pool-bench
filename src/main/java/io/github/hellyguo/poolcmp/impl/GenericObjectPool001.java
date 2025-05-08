@@ -25,9 +25,12 @@ import org.bbottema.genericobjectpool.PoolConfig;
 import org.bbottema.genericobjectpool.PoolableObject;
 import org.bbottema.genericobjectpool.expirypolicies.TimeoutSinceLastAllocationExpirationPolicy;
 
+import java.util.Arrays;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 
+import static io.github.hellyguo.poolcmp.CompareConsts.ARRAY_SIZE;
 import static io.github.hellyguo.poolcmp.CompareConsts.INITIAL_SIZE;
 import static io.github.hellyguo.poolcmp.CompareConsts.MAX_SIZE;
 
@@ -50,6 +53,21 @@ public class GenericObjectPool001 implements PoolImplementor {
         G_O_POOL = new GenericObjectPool<>(poolConfig, new DemoPojoAllocator());
     }
 
+    private static final Consumer<PoolableObject<DemoPojo>>
+            RELEASER = holder -> {
+        try {
+            if (holder != null) {
+                holder.release();
+            }
+        } catch (Exception e) {
+            //
+        }
+    };
+
+    @SuppressWarnings("rawtypes")
+    private static final ThreadLocal<PoolableObject[]> WRAP_LOCAL =
+            ThreadLocal.withInitial(() -> new PoolableObject[ARRAY_SIZE]);
+
     @Override
     public void testPool(PojoCustomer customer) {
         PoolableObject<DemoPojo> holder = null;
@@ -65,6 +83,22 @@ public class GenericObjectPool001 implements PoolImplementor {
             if (holder != null) {
                 holder.release();
             }
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public void testPoolBatch(PojoCustomer customer, DemoPojo[] pojoArray, int batchSize) {
+        PoolableObject<DemoPojo>[] array = WRAP_LOCAL.get();
+        try {
+            for (int i = 0; i < batchSize; i++) {
+                array[i] = G_O_POOL.claim(1, TimeUnit.SECONDS);
+            }
+            customer.consume(array);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            Arrays.stream(array).forEach(RELEASER);
         }
     }
 

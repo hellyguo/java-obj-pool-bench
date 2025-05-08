@@ -22,6 +22,9 @@ import io.github.hellyguo.poolcmp.PojoCustomer;
 import io.github.hellyguo.poolcmp.PoolImplementor;
 import io.github.hellyguo.poolcmp.domain.DemoPojo;
 
+import java.util.Arrays;
+import java.util.function.Consumer;
+
 import static io.github.hellyguo.poolcmp.CompareConsts.INITIAL_SIZE;
 import static io.github.hellyguo.poolcmp.CompareConsts.PRELOAD_COUNT;
 
@@ -33,6 +36,16 @@ public class CoralPool002LinkedPool implements PoolImplementor {
         final Class<DemoPojo> klass = DemoPojo.class;
         CORAL_LINKED_POOL = new LinkedObjectPool<>(INITIAL_SIZE, PRELOAD_COUNT, klass);
     }
+
+    private static final Consumer<DemoPojo> RELEASER = pojo -> {
+        try {
+            if (pojo != null) {
+                CORAL_LINKED_POOL.release(pojo);
+            }
+        } catch (Exception e) {
+            //
+        }
+    };
 
     @Override
     public void testPool(PojoCustomer customer) {
@@ -48,6 +61,20 @@ public class CoralPool002LinkedPool implements PoolImplementor {
             } catch (Exception e) {
                 //
             }
+        }
+    }
+
+    @Override
+    public void testPoolBatch(PojoCustomer customer, DemoPojo[] pojoArray, int batchSize) {
+        try {
+            for (int i = 0; i < batchSize; i++) {
+                pojoArray[i] = CORAL_LINKED_POOL.get();
+            }
+            customer.consume(pojoArray);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            Arrays.stream(pojoArray).forEach(RELEASER);
         }
     }
 

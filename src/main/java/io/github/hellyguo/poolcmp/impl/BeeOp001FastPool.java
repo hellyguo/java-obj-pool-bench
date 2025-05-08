@@ -22,8 +22,13 @@ import cn.beeop.pool.FastObjectPool;
 import cn.beeop.pool.ObjectPool;
 import io.github.hellyguo.poolcmp.PojoCustomer;
 import io.github.hellyguo.poolcmp.PoolImplementor;
+import io.github.hellyguo.poolcmp.domain.DemoPojo;
 import io.github.hellyguo.poolcmp.misc.DemoPojoBeeObjectFactory;
 
+import java.util.Arrays;
+import java.util.function.Consumer;
+
+import static io.github.hellyguo.poolcmp.CompareConsts.ARRAY_SIZE;
 import static io.github.hellyguo.poolcmp.CompareConsts.INITIAL_SIZE;
 import static io.github.hellyguo.poolcmp.CompareConsts.MAX_SIZE;
 
@@ -44,6 +49,19 @@ public class BeeOp001FastPool implements PoolImplementor {
         }
     }
 
+    private static final Consumer<BeeObjectHandle> RELEASER = handle -> {
+        try {
+            if (handle != null) {
+                handle.close();
+            }
+        } catch (Exception e) {
+            //
+        }
+    };
+
+    private static final ThreadLocal<BeeObjectHandle[]> HANDLE_ARRAY_LOCAL =
+            ThreadLocal.withInitial(() -> new BeeObjectHandle[ARRAY_SIZE]);
+
     @Override
     public void testPool(PojoCustomer customer) {
         BeeObjectHandle handle = null;
@@ -60,6 +78,22 @@ public class BeeOp001FastPool implements PoolImplementor {
                     //
                 }
             }
+        }
+    }
+
+    @Override
+    public void testPoolBatch(PojoCustomer customer, DemoPojo[] pojoArray, int batchSize) {
+        BeeObjectHandle[] handles = HANDLE_ARRAY_LOCAL.get();
+        try {
+            for (int i = 0; i < batchSize; i++) {
+                handles[i] = BEEOP_FAST_POOL.getObject();
+                pojoArray[i] = (DemoPojo) handles[i].getObjectProxy();
+            }
+            customer.consume(pojoArray);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            Arrays.stream(handles).forEach(RELEASER);
         }
     }
 

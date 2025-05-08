@@ -163,17 +163,105 @@ Compare001Benchmark.test:·gc.time                                              
 ```
 
 ```verilog
-Benchmark                                                    Mode  Cnt      Score      Error   Units
-Compare002Benchmark.test0NewOneRequestMultiTimes            thrpt    5   6227.045 ± 2143.521  ops/ms
-Compare002Benchmark.test1BeeOPOneRequestMultiTimes          thrpt    5  11614.665 ± 1636.184  ops/ms
-Compare002Benchmark.test2CommonsPoolOneRequestMultiTimes    thrpt    5     58.541 ±    3.104  ops/ms
-Compare002Benchmark.test3FrogspawnPoolOneRequestMultiTimes  thrpt    5    873.924 ±   18.034  ops/ms
-Compare002Benchmark.test4GOPoolOneRequestMultiTimes         thrpt    5    172.718 ±    8.730  ops/ms
-Compare002Benchmark.test5LitePoolOneRequestMultiTimes       thrpt    5    432.140 ±   72.527  ops/ms
-Compare002Benchmark.test6ViburPoolOneRequestMultiTimes      thrpt    5    140.157 ±    3.787  ops/ms
+Benchmark                                                                                (desc)   Mode  Cnt      Score       Error   Units
+Compare002Benchmark.testBatch                                     ApacheCommonsPool001StackPool  thrpt    5    132.639 ±     2.747  ops/ms
+Compare002Benchmark.testBatch:·gc.alloc.rate                      ApacheCommonsPool001StackPool  thrpt    5      3.042 ±     5.725  MB/sec
+Compare002Benchmark.testBatch:·gc.alloc.rate.norm                 ApacheCommonsPool001StackPool  thrpt    5    235.825 ±  1060.664    B/op
+Compare002Benchmark.testBatch:·gc.count                           ApacheCommonsPool001StackPool  thrpt    5        ≈ 0              counts
+Compare002Benchmark.testBatch                                          ApacheCommonsPool002Pool  thrpt    5     54.539 ±     8.064  ops/ms
+Compare002Benchmark.testBatch:·gc.alloc.rate                           ApacheCommonsPool002Pool  thrpt    5     26.573 ±    23.409  MB/sec
+Compare002Benchmark.testBatch:·gc.alloc.rate.norm                      ApacheCommonsPool002Pool  thrpt    5   3674.167 ±  2541.428    B/op
+Compare002Benchmark.testBatch:·gc.count                                ApacheCommonsPool002Pool  thrpt    5        ≈ 0              counts
+Compare002Benchmark.testBatch                                   ApacheCommonsPool003SoftRefPool  thrpt    5    159.330 ±     2.850  ops/ms
+Compare002Benchmark.testBatch:·gc.alloc.rate                    ApacheCommonsPool003SoftRefPool  thrpt    5     31.898 ±    30.189  MB/sec
+Compare002Benchmark.testBatch:·gc.alloc.rate.norm               ApacheCommonsPool003SoftRefPool  thrpt    5   1495.392 ±   885.715    B/op
+Compare002Benchmark.testBatch:·gc.count                         ApacheCommonsPool003SoftRefPool  thrpt    5        ≈ 0              counts
+Compare002Benchmark.testBatch                                         ApacheCommonsPool2001Pool  thrpt    5     70.548 ±     3.001  ops/ms
+Compare002Benchmark.testBatch:·gc.alloc.rate                          ApacheCommonsPool2001Pool  thrpt    5     70.992 ±    77.940  MB/sec
+Compare002Benchmark.testBatch:·gc.alloc.rate.norm                     ApacheCommonsPool2001Pool  thrpt    5   7387.319 ±  1982.946    B/op
+Compare002Benchmark.testBatch:·gc.churn.G1_Eden_Space                 ApacheCommonsPool2001Pool  thrpt    5     79.549 ±   684.943  MB/sec
+Compare002Benchmark.testBatch:·gc.churn.G1_Eden_Space.norm            ApacheCommonsPool2001Pool  thrpt    5   7177.708 ± 61802.228    B/op
+Compare002Benchmark.testBatch:·gc.count                               ApacheCommonsPool2001Pool  thrpt    5      1.000              counts
+Compare002Benchmark.testBatch:·gc.time                                ApacheCommonsPool2001Pool  thrpt    5      1.000                  ms
+Compare002Benchmark.testBatch                                                  BeeOp001FastPool  thrpt    5    202.719 ±    27.181  ops/ms
+Compare002Benchmark.testBatch:·gc.alloc.rate                                   BeeOp001FastPool  thrpt    5     33.806 ±    33.738  MB/sec
+Compare002Benchmark.testBatch:·gc.alloc.rate.norm                              BeeOp001FastPool  thrpt    5   1214.741 ±   678.715    B/op
+Compare002Benchmark.testBatch:·gc.count                                        BeeOp001FastPool  thrpt    5        ≈ 0              counts
+Compare002Benchmark.testBatch                                                       FastPool001  thrpt    5    462.527 ±   435.981  ops/ms
+Compare002Benchmark.testBatch:·gc.alloc.rate                                        FastPool001  thrpt    5     39.905 ±    34.474  MB/sec
+Compare002Benchmark.testBatch:·gc.alloc.rate.norm                                   FastPool001  thrpt    5    655.912 ±   185.277    B/op
+Compare002Benchmark.testBatch:·gc.churn.G1_Eden_Space                               FastPool001  thrpt    5     28.862 ±   248.514  MB/sec
+Compare002Benchmark.testBatch:·gc.churn.G1_Eden_Space.norm                          FastPool001  thrpt    5    734.100 ±  6320.823    B/op
+Compare002Benchmark.testBatch:·gc.churn.G1_Survivor_Space                           FastPool001  thrpt    5      0.023 ±     0.201  MB/sec
+Compare002Benchmark.testBatch:·gc.churn.G1_Survivor_Space.norm                      FastPool001  thrpt    5      0.594 ±     5.117    B/op
+Compare002Benchmark.testBatch:·gc.count                                             FastPool001  thrpt    5      1.000              counts
+Compare002Benchmark.testBatch:·gc.time                                              FastPool001  thrpt    5      2.000                  ms
+Compare002Benchmark.testBatch                                              FastPool002Disruptor  thrpt    5   1195.241 ±  2121.242  ops/ms
+Compare002Benchmark.testBatch:·gc.alloc.rate                               FastPool002Disruptor  thrpt    5     20.526 ±    43.911  MB/sec
+Compare002Benchmark.testBatch:·gc.alloc.rate.norm                          FastPool002Disruptor  thrpt    5    128.763 ±   143.684    B/op
+Compare002Benchmark.testBatch:·gc.count                                    FastPool002Disruptor  thrpt    5        ≈ 0              counts
+Compare002Benchmark.testBatch                                                      Frogspawn001  thrpt    5   1363.755 ±   211.244  ops/ms
+Compare002Benchmark.testBatch:·gc.alloc.rate                                       Frogspawn001  thrpt    5     22.605 ±    18.574  MB/sec
+Compare002Benchmark.testBatch:·gc.alloc.rate.norm                                  Frogspawn001  thrpt    5    123.145 ±    98.911    B/op
+Compare002Benchmark.testBatch:·gc.churn.G1_Eden_Space                              Frogspawn001  thrpt    5     78.537 ±   676.230  MB/sec
+Compare002Benchmark.testBatch:·gc.churn.G1_Eden_Space.norm                         Frogspawn001  thrpt    5    354.023 ±  3048.246    B/op
+Compare002Benchmark.testBatch:·gc.count                                            Frogspawn001  thrpt    5      1.000              counts
+Compare002Benchmark.testBatch:·gc.time                                             Frogspawn001  thrpt    5      1.000                  ms
+Compare002Benchmark.testBatch                                              FuriousObjectPool001  thrpt    5    349.890 ±    36.055  ops/ms
+Compare002Benchmark.testBatch:·gc.alloc.rate                               FuriousObjectPool001  thrpt    5     45.479 ±    46.476  MB/sec
+Compare002Benchmark.testBatch:·gc.alloc.rate.norm                          FuriousObjectPool001  thrpt    5    963.660 ±   392.955    B/op
+Compare002Benchmark.testBatch:·gc.churn.G1_Eden_Space                      FuriousObjectPool001  thrpt    5     78.558 ±   676.411  MB/sec
+Compare002Benchmark.testBatch:·gc.churn.G1_Eden_Space.norm                 FuriousObjectPool001  thrpt    5   1440.838 ± 12406.050    B/op
+Compare002Benchmark.testBatch:·gc.churn.G1_Survivor_Space                  FuriousObjectPool001  thrpt    5      0.001 ±     0.011  MB/sec
+Compare002Benchmark.testBatch:·gc.churn.G1_Survivor_Space.norm             FuriousObjectPool001  thrpt    5      0.023 ±     0.201    B/op
+Compare002Benchmark.testBatch:·gc.count                                    FuriousObjectPool001  thrpt    5      1.000              counts
+Compare002Benchmark.testBatch:·gc.time                                     FuriousObjectPool001  thrpt    5      2.000                  ms
+Compare002Benchmark.testBatch                                              GenericObjectPool001  thrpt    5    243.359 ±     7.757  ops/ms
+Compare002Benchmark.testBatch:·gc.alloc.rate                               GenericObjectPool001  thrpt    5     31.664 ±    29.923  MB/sec
+Compare002Benchmark.testBatch:·gc.alloc.rate.norm                          GenericObjectPool001  thrpt    5    975.633 ±   580.787    B/op
+Compare002Benchmark.testBatch:·gc.churn.G1_Eden_Space                      GenericObjectPool001  thrpt    5     78.540 ±   676.255  MB/sec
+Compare002Benchmark.testBatch:·gc.churn.G1_Eden_Space.norm                 GenericObjectPool001  thrpt    5   2059.196 ± 17730.303    B/op
+Compare002Benchmark.testBatch:·gc.count                                    GenericObjectPool001  thrpt    5      1.000              counts
+Compare002Benchmark.testBatch:·gc.time                                     GenericObjectPool001  thrpt    5      2.000                  ms
+Compare002Benchmark.testBatch                                                        JavaNew001  thrpt    5  10172.461 ±   753.659  ops/ms
+Compare002Benchmark.testBatch:·gc.alloc.rate                                         JavaNew001  thrpt    5   1909.196 ±  2412.695  MB/sec
+Compare002Benchmark.testBatch:·gc.alloc.rate.norm                                    JavaNew001  thrpt    5   1281.682 ±    13.386    B/op
+Compare002Benchmark.testBatch:·gc.churn.G1_Eden_Space                                JavaNew001  thrpt    5   1948.163 ±  2685.604  MB/sec
+Compare002Benchmark.testBatch:·gc.churn.G1_Eden_Space.norm                           JavaNew001  thrpt    5   1291.121 ±   381.785    B/op
+Compare002Benchmark.testBatch:·gc.churn.G1_Survivor_Space                            JavaNew001  thrpt    5      0.008 ±     0.020  MB/sec
+Compare002Benchmark.testBatch:·gc.churn.G1_Survivor_Space.norm                       JavaNew001  thrpt    5      0.006 ±     0.017    B/op
+Compare002Benchmark.testBatch:·gc.count                                              JavaNew001  thrpt    5     28.000              counts
+Compare002Benchmark.testBatch:·gc.time                                               JavaNew001  thrpt    5     14.000                  ms
+Compare002Benchmark.testBatch                                                         KOPool001  thrpt    5    107.272 ±     3.643  ops/ms
+Compare002Benchmark.testBatch:·gc.alloc.rate                                          KOPool001  thrpt    5     63.537 ±    70.243  MB/sec
+Compare002Benchmark.testBatch:·gc.alloc.rate.norm                                     KOPool001  thrpt    5   4341.635 ±  1340.952    B/op
+Compare002Benchmark.testBatch:·gc.churn.G1_Eden_Space                                 KOPool001  thrpt    5     29.391 ±   253.068  MB/sec
+Compare002Benchmark.testBatch:·gc.churn.G1_Eden_Space.norm                            KOPool001  thrpt    5   4720.468 ± 40644.656    B/op
+Compare002Benchmark.testBatch:·gc.churn.G1_Survivor_Space                             KOPool001  thrpt    5      0.007 ±     0.058  MB/sec
+Compare002Benchmark.testBatch:·gc.churn.G1_Survivor_Space.norm                        KOPool001  thrpt    5      1.085 ±     9.339    B/op
+Compare002Benchmark.testBatch:·gc.count                                               KOPool001  thrpt    5      1.000              counts
+Compare002Benchmark.testBatch:·gc.time                                                KOPool001  thrpt    5      1.000                  ms
+Compare002Benchmark.testBatch                                              StormPot001BlazePool  thrpt    5    262.686 ±    47.635  ops/ms
+Compare002Benchmark.testBatch:·gc.alloc.rate                               StormPot001BlazePool  thrpt    5     42.501 ±    43.526  MB/sec
+Compare002Benchmark.testBatch:·gc.alloc.rate.norm                          StormPot001BlazePool  thrpt    5   1161.827 ±   497.557    B/op
+Compare002Benchmark.testBatch:·gc.churn.G1_Eden_Space                      StormPot001BlazePool  thrpt    5     78.177 ±   673.129  MB/sec
+Compare002Benchmark.testBatch:·gc.churn.G1_Eden_Space.norm                 StormPot001BlazePool  thrpt    5   2025.609 ± 17441.106    B/op
+Compare002Benchmark.testBatch:·gc.count                                    StormPot001BlazePool  thrpt    5      1.000              counts
+Compare002Benchmark.testBatch:·gc.time                                     StormPot001BlazePool  thrpt    5      2.000                  ms
+Compare002Benchmark.testBatch                                              StormPot002QueuePool  thrpt    5    274.592 ±    48.355  ops/ms
+Compare002Benchmark.testBatch:·gc.alloc.rate                               StormPot002QueuePool  thrpt    5     45.976 ±    47.518  MB/sec
+Compare002Benchmark.testBatch:·gc.alloc.rate.norm                          StormPot002QueuePool  thrpt    5   1192.633 ±   491.001    B/op
+Compare002Benchmark.testBatch:·gc.churn.G1_Eden_Space                      StormPot002QueuePool  thrpt    5     77.656 ±   668.646  MB/sec
+Compare002Benchmark.testBatch:·gc.churn.G1_Eden_Space.norm                 StormPot002QueuePool  thrpt    5   1766.545 ± 15210.485    B/op
+Compare002Benchmark.testBatch:·gc.count                                    StormPot002QueuePool  thrpt    5      1.000              counts
+Compare002Benchmark.testBatch:·gc.time                                     StormPot002QueuePool  thrpt    5      2.000                  ms
+Compare002Benchmark.testBatch                                                      ViburPool001  thrpt    5    185.873 ±     5.507  ops/ms
+Compare002Benchmark.testBatch:·gc.alloc.rate                                       ViburPool001  thrpt    5     37.247 ±    36.969  MB/sec
+Compare002Benchmark.testBatch:·gc.alloc.rate.norm                                  ViburPool001  thrpt    5   1479.993 ±   755.777    B/op
+Compare002Benchmark.testBatch:·gc.count                                            ViburPool001  thrpt    5        ≈ 0              counts
 ```
 
 ## 结论
 
 1. 逐个使用，建议使用：`frogspawn`/`stormpot`(`blaze pool`)
-2. 一批使用，建议使用：`BeeOP`
+2. 一批使用，建议使用：`frogspawn`/`FastPool`+`Disruptor`

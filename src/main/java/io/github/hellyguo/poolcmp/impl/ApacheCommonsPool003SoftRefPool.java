@@ -22,13 +22,13 @@ import io.github.hellyguo.poolcmp.domain.DemoPojo;
 import io.github.hellyguo.poolcmp.misc.DemoPojoBasePoolableObjectFactory;
 import org.apache.commons.pool.impl.SoftReferenceObjectPool;
 
+import java.util.Arrays;
+
 public class ApacheCommonsPool003SoftRefPool implements PoolImplementor {
 
-    protected static final SoftReferenceObjectPool<DemoPojo> COMMONS_1_POOL_SOFT_REF;
+    protected static final SoftReferenceObjectPool<DemoPojo> COMMONS_1_POOL_SOFT_REF =
+            new SoftReferenceObjectPool<>(new DemoPojoBasePoolableObjectFactory());
 
-    static {
-        COMMONS_1_POOL_SOFT_REF = new SoftReferenceObjectPool<>(new DemoPojoBasePoolableObjectFactory());
-    }
 
     @Override
     public void testPool(PojoCustomer customer) {
@@ -44,6 +44,28 @@ public class ApacheCommonsPool003SoftRefPool implements PoolImplementor {
             } catch (Exception e) {
                 //
             }
+        }
+    }
+
+    @Override
+    public void testPoolBatch(PojoCustomer customer, DemoPojo[] pojoArray, int batchSize) {
+        try {
+            for (int i = 0; i < batchSize; i++) {
+                pojoArray[i] = COMMONS_1_POOL_SOFT_REF.borrowObject();
+            }
+            customer.consume(pojoArray);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            Arrays.stream(pojoArray).forEach(pojo -> {
+                try {
+                    if (pojo != null) {
+                        COMMONS_1_POOL_SOFT_REF.returnObject(pojo);
+                    }
+                } catch (Exception e) {
+                    //
+                }
+            });
         }
     }
 

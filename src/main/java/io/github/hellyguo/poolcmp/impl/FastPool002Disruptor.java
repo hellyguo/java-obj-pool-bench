@@ -24,6 +24,10 @@ import io.github.hellyguo.poolcmp.PoolImplementor;
 import io.github.hellyguo.poolcmp.domain.DemoPojo;
 import io.github.hellyguo.poolcmp.misc.DemoPojoObjectFastPoolFactory;
 
+import java.util.Arrays;
+import java.util.function.Consumer;
+
+import static io.github.hellyguo.poolcmp.CompareConsts.ARRAY_SIZE;
 import static io.github.hellyguo.poolcmp.CompareConsts.MAX_SIZE;
 
 public class FastPool002Disruptor implements PoolImplementor {
@@ -36,6 +40,20 @@ public class FastPool002Disruptor implements PoolImplementor {
         FAST_POOL = new DisruptorObjectPool<>(config, new DemoPojoObjectFastPoolFactory());
     }
 
+    private static final Consumer<Poolable<DemoPojo>> RELEASER = pojo -> {
+        try {
+            if (pojo != null) {
+                FAST_POOL.returnObject(pojo);
+            }
+        } catch (Exception e) {
+            //
+        }
+    };
+
+    @SuppressWarnings("rawtypes")
+    private static final ThreadLocal<Poolable[]> ARRAY_LOCAL =
+            ThreadLocal.withInitial(() -> new Poolable[ARRAY_SIZE]);
+
     @Override
     public void testPool(PojoCustomer customer) {
         Poolable<DemoPojo> pojo = null;
@@ -46,6 +64,22 @@ public class FastPool002Disruptor implements PoolImplementor {
             //
         } finally {
             FAST_POOL.returnObject(pojo);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public void testPoolBatch(PojoCustomer customer, DemoPojo[] pojoArray, int batchSize) {
+        Poolable<DemoPojo>[] array = ARRAY_LOCAL.get();
+        try {
+            for (int i = 0; i < batchSize; i++) {
+                array[i] = FAST_POOL.borrowObject();
+            }
+            customer.consume(array);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            Arrays.stream(array).forEach(RELEASER);
         }
     }
 

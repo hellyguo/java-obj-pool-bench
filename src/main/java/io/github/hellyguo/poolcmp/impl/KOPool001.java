@@ -24,12 +24,32 @@ import org.pacesys.kbop.IKeyedObjectPool;
 import org.pacesys.kbop.IPooledObject;
 import org.pacesys.kbop.Pools;
 
+import java.util.Arrays;
+import java.util.function.Consumer;
+
+import static io.github.hellyguo.poolcmp.CompareConsts.ARRAY_SIZE;
 import static io.github.hellyguo.poolcmp.CompareConsts.MAX_SIZE;
 
 public class KOPool001 implements PoolImplementor {
 
     protected static final IKeyedObjectPool.Multi<String, DemoPojo> KOP_POOL =
             Pools.createMultiPool(new DemoPojoObjectFactory(), MAX_SIZE);
+
+    private static final Consumer<IPooledObject<DemoPojo>>
+            RELEASER = pojo -> {
+        try {
+            if (pojo != null) {
+                pojo.release();
+                KOP_POOL.release(pojo);
+            }
+        } catch (Exception e) {
+            //
+        }
+    };
+
+    @SuppressWarnings("rawtypes")
+    private static final ThreadLocal<IPooledObject[]> WRAP_LOCAL =
+            ThreadLocal.withInitial(() -> new IPooledObject[ARRAY_SIZE]);
 
     @Override
     public void testPool(PojoCustomer customer) {
@@ -44,6 +64,22 @@ public class KOPool001 implements PoolImplementor {
                 pojo.release();
                 KOP_POOL.release(pojo);
             }
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public void testPoolBatch(PojoCustomer customer, DemoPojo[] pojoArray, int batchSize) {
+        IPooledObject<DemoPojo>[] array = WRAP_LOCAL.get();
+        try {
+            for (int i = 0; i < batchSize; i++) {
+                array[i] = KOP_POOL.borrow("example1");
+            }
+            customer.consume(array);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            Arrays.stream(array).forEach(RELEASER);
         }
     }
 

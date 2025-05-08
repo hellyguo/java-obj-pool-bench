@@ -23,6 +23,9 @@ import io.github.hellyguo.poolcmp.misc.DemoPojo2BasePoolableObjectFactory;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.apache.commons.pool2.impl.SoftReferenceObjectPool;
 
+import java.util.Arrays;
+import java.util.function.Consumer;
+
 import static io.github.hellyguo.poolcmp.CompareConsts.INITIAL_SIZE;
 import static io.github.hellyguo.poolcmp.CompareConsts.MAX_SIZE;
 
@@ -42,6 +45,16 @@ public class ApacheCommonsPool2002SoftRefPool implements PoolImplementor {
         }
     }
 
+    private static final Consumer<DemoPojo> RELEASER = pojo -> {
+        try {
+            if (pojo != null) {
+                COMMONS_2_POOL_SOFT_REF.returnObject(pojo);
+            }
+        } catch (Exception e) {
+            //
+        }
+    };
+
     @Override
     public void testPool(PojoCustomer customer) {
         DemoPojo pojo = null;
@@ -56,6 +69,20 @@ public class ApacheCommonsPool2002SoftRefPool implements PoolImplementor {
             } catch (Exception e) {
                 //
             }
+        }
+    }
+
+    @Override
+    public void testPoolBatch(PojoCustomer customer, DemoPojo[] pojoArray, int batchSize) {
+        try {
+            for (int i = 0; i < batchSize; i++) {
+                pojoArray[i] = COMMONS_2_POOL_SOFT_REF.borrowObject();
+            }
+            customer.consume(pojoArray);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            Arrays.stream(pojoArray).forEach(RELEASER);
         }
     }
 

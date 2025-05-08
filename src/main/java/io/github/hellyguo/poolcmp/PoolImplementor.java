@@ -16,9 +16,13 @@
  */
 package io.github.hellyguo.poolcmp;
 
+import io.github.hellyguo.poolcmp.domain.DemoPojo;
+
 public interface PoolImplementor {
 
     void testPool(PojoCustomer customer);
+
+    void testPoolBatch(PojoCustomer customer, DemoPojo[] array, int batchSize);
 
     void shutdown();
 

@@ -22,16 +22,26 @@ import io.github.hellyguo.poolcmp.domain.DemoPojo;
 import io.github.hellyguo.poolcmp.misc.DemoPojoBasePoolableObjectFactory;
 import org.apache.commons.pool.impl.StackObjectPool;
 
+import java.util.Arrays;
+import java.util.function.Consumer;
+
 import static io.github.hellyguo.poolcmp.CompareConsts.INITIAL_SIZE;
 import static io.github.hellyguo.poolcmp.CompareConsts.MAX_SIZE;
 
 public class ApacheCommonsPool001StackPool implements PoolImplementor {
 
-    protected static final StackObjectPool<DemoPojo> COMMONS_1_POOL_STACK;
+    protected static final StackObjectPool<DemoPojo> COMMONS_1_POOL_STACK =
+            new StackObjectPool<>(new DemoPojoBasePoolableObjectFactory(), INITIAL_SIZE, MAX_SIZE);
 
-    static {
-        COMMONS_1_POOL_STACK = new StackObjectPool<>(new DemoPojoBasePoolableObjectFactory(), INITIAL_SIZE, MAX_SIZE);
-    }
+    private static final Consumer<DemoPojo> RELEASER = pojo -> {
+        try {
+            if (pojo != null) {
+                COMMONS_1_POOL_STACK.returnObject(pojo);
+            }
+        } catch (Exception e) {
+            //
+        }
+    };
 
     @Override
     public void testPool(PojoCustomer customer) {
@@ -40,13 +50,27 @@ public class ApacheCommonsPool001StackPool implements PoolImplementor {
             pojo = COMMONS_1_POOL_STACK.borrowObject();
             customer.consume(pojo);
         } catch (Exception e) {
-            //
+            throw new RuntimeException(e);
         } finally {
             try {
                 COMMONS_1_POOL_STACK.returnObject(pojo);
             } catch (Exception e) {
                 //
             }
+        }
+    }
+
+    @Override
+    public void testPoolBatch(PojoCustomer customer, DemoPojo[] pojoArray, int batchSize) {
+        try {
+            for (int i = 0; i < batchSize; i++) {
+                pojoArray[i] = COMMONS_1_POOL_STACK.borrowObject();
+            }
+            customer.consume(pojoArray);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            Arrays.stream(pojoArray).forEach(RELEASER);
         }
     }
 

@@ -20,32 +20,60 @@ import io.github.hellyguo.poolcmp.PojoCustomer;
 import io.github.hellyguo.poolcmp.PoolImplementor;
 import io.github.hellyguo.poolcmp.domain.DemoPojo;
 import io.github.hellyguo.poolcmp.misc.DemoPojoPoolableObjectBase;
+import nf.fr.eraasoft.pool.ObjectPool;
 import nf.fr.eraasoft.pool.PoolSettings;
 import nf.fr.eraasoft.pool.impl.PoolControler;
+
+import java.util.Arrays;
+import java.util.function.Consumer;
 
 import static io.github.hellyguo.poolcmp.CompareConsts.INITIAL_SIZE;
 import static io.github.hellyguo.poolcmp.CompareConsts.MAX_SIZE;
 
 public class FuriousObjectPool001 implements PoolImplementor {
 
-    protected static final nf.fr.eraasoft.pool.ObjectPool<DemoPojo> ERASOFT_POOL;
+    protected static final ObjectPool<DemoPojo> FURIOUS_POOL;
 
     static {
         PoolSettings<DemoPojo> settings = new PoolSettings<>(new DemoPojoPoolableObjectBase());
         settings.min(INITIAL_SIZE).max(MAX_SIZE);
-        ERASOFT_POOL = settings.pool();
+        FURIOUS_POOL = settings.pool();
     }
+
+    private static final Consumer<DemoPojo> RELEASER = pojo -> {
+        try {
+            if (pojo != null) {
+                FURIOUS_POOL.returnObj(pojo);
+            }
+        } catch (Exception e) {
+            //
+        }
+    };
 
     @Override
     public void testPool(PojoCustomer customer) {
         DemoPojo pojo = null;
         try {
-            pojo = ERASOFT_POOL.getObj();
+            pojo = FURIOUS_POOL.getObj();
             customer.consume(pojo);
         } catch (Exception e) {
             //
         } finally {
-            ERASOFT_POOL.returnObj(pojo);
+            FURIOUS_POOL.returnObj(pojo);
+        }
+    }
+
+    @Override
+    public void testPoolBatch(PojoCustomer customer, DemoPojo[] pojoArray, int batchSize) {
+        try {
+            for (int i = 0; i < batchSize; i++) {
+                pojoArray[i] = FURIOUS_POOL.getObj();
+            }
+            customer.consume(pojoArray);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            Arrays.stream(pojoArray).forEach(RELEASER);
         }
     }
 
