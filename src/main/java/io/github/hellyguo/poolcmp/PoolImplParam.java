@@ -35,6 +35,7 @@ public class PoolImplParam {
             "CoralPool002LinkedPool",
             "EraaSoftPool001",
             "FastPool001",
+            "FastPool002Disruptor",
             "Frogspawn001",
             "GenericObjectPool001",
             "JavaNew001",
