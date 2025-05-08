@@ -22,7 +22,9 @@ import io.github.hellyguo.poolcmp.PojoCustomer;
 import io.github.hellyguo.poolcmp.PoolImplementor;
 import io.github.hellyguo.poolcmp.domain.DemoPojo;
 
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 
 import static io.github.hellyguo.poolcmp.CompareConsts.INITIAL_SIZE;
 import static io.github.hellyguo.poolcmp.CompareConsts.MAX_SIZE;
@@ -47,6 +49,16 @@ public class LitePool001 implements PoolImplementor {
                            .build("object pool");
     }
 
+    private static final Consumer<DemoPojo> RELEASER = pojo -> {
+        try {
+            if (pojo != null) {
+                LITE_POOL.release(pojo);
+            }
+        } catch (Exception e) {
+            //
+        }
+    };
+
     @Override
     public void testPool(PojoCustomer customer) {
         DemoPojo pojo = null;
@@ -59,6 +71,20 @@ public class LitePool001 implements PoolImplementor {
             if (pojo != null) {
                 LITE_POOL.release(pojo);
             }
+        }
+    }
+
+    @Override
+    public void testPoolBatch(PojoCustomer customer, DemoPojo[] pojoArray, int batchSize) {
+        try {
+            for (int i = 0; i < batchSize; i++) {
+                pojoArray[i] = LITE_POOL.acquire();
+            }
+            customer.consume(pojoArray);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            Arrays.stream(pojoArray).forEach(RELEASER);
         }
     }
 

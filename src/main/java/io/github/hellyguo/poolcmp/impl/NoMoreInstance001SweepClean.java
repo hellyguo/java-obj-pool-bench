@@ -48,6 +48,18 @@ public class NoMoreInstance001SweepClean implements PoolImplementor {
     }
 
     @Override
+    public void testPoolBatch(PojoCustomer customer, DemoPojo[] pojoArray, int batchSize) {
+        try {
+            for (int i = 0; i < batchSize; i++) {
+                pojoArray[i] = NMI_POOL.get();
+            }
+            customer.consume(pojoArray);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public void shutdown() {
         NMI_POOL.cleanAll();
     }

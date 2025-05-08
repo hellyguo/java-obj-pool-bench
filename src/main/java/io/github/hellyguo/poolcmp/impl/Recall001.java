@@ -29,6 +29,7 @@ import io.github.hellyguo.poolcmp.misc.DemoPojoIdAccessor;
 import java.nio.ByteBuffer;
 import java.util.concurrent.atomic.AtomicLong;
 
+import static io.github.hellyguo.poolcmp.CompareConsts.ARRAY_SIZE;
 import static io.github.hellyguo.poolcmp.CompareConsts.INITIAL_SIZE;
 
 public class Recall001 implements PoolImplementor {
@@ -56,6 +57,13 @@ public class Recall001 implements PoolImplementor {
     }
 
     private static final ThreadLocal<DemoPojo> POJO_LOCAL = ThreadLocal.withInitial(DemoPojo::new);
+    private static final ThreadLocal<DemoPojo[]> ARRAY_LOCAL = ThreadLocal.withInitial(() -> {
+        DemoPojo[] array = new DemoPojo[ARRAY_SIZE];
+        for (int i = 0; i < ARRAY_SIZE; i++) {
+            array[i] = new DemoPojo();
+        }
+        return array;
+    });
 
     @Override
     public void testPool(PojoCustomer customer) {
@@ -65,6 +73,20 @@ public class Recall001 implements PoolImplementor {
             customer.consume(pojo);
         } catch (Exception e) {
             //
+        }
+    }
+
+    @Override
+    public void testPoolBatch(PojoCustomer customer, DemoPojo[] pojoArray, int batchSize) {
+        DemoPojo[] array = ARRAY_LOCAL.get();
+        try {
+            for (int i = 0; i < batchSize; i++) {
+                POJO_STORE.load(WALKER.getAndIncrement() % INITIAL_SIZE, array[i]);
+                pojoArray[i] = array[i];
+            }
+            customer.consume(pojoArray);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 

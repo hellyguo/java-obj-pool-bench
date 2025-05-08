@@ -23,6 +23,9 @@ import io.github.hellyguo.poolcmp.misc.DemoPojoCommonsPooledObjectFactory;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 
+import java.util.Arrays;
+import java.util.function.Consumer;
+
 import static io.github.hellyguo.poolcmp.CompareConsts.INITIAL_SIZE;
 import static io.github.hellyguo.poolcmp.CompareConsts.MAX_SIZE;
 
@@ -43,6 +46,16 @@ public class ApacheCommonsPool2001Pool implements PoolImplementor {
         }
     }
 
+    private static final Consumer<DemoPojo> RELEASER = pojo -> {
+        try {
+            if (pojo != null) {
+                COMMONS_2_POOL.returnObject(pojo);
+            }
+        } catch (Exception e) {
+            //
+        }
+    };
+
     @Override
     public void testPool(PojoCustomer customer) {
         DemoPojo pojo = null;
@@ -57,6 +70,20 @@ public class ApacheCommonsPool2001Pool implements PoolImplementor {
             } catch (Exception e) {
                 //
             }
+        }
+    }
+
+    @Override
+    public void testPoolBatch(PojoCustomer customer, DemoPojo[] pojoArray, int batchSize) {
+        try {
+            for (int i = 0; i < batchSize; i++) {
+                pojoArray[i] = COMMONS_2_POOL.borrowObject();
+            }
+            customer.consume(pojoArray);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            Arrays.stream(pojoArray).forEach(RELEASER);
         }
     }
 

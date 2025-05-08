@@ -17,6 +17,14 @@ public class JavaNew001 implements PoolImplementor {
     }
 
     @Override
+    public void testPoolBatch(PojoCustomer customer, DemoPojo[] pojoArray, int batchSize) {
+        for (int i = 0; i < batchSize; i++) {
+            pojoArray[i] = new DemoPojo();
+        }
+        customer.consume(pojoArray);
+    }
+
+    @Override
     public void shutdown() {
     }
 }

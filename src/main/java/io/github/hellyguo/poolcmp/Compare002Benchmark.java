@@ -16,20 +16,23 @@
  */
 package io.github.hellyguo.poolcmp;
 
-import cn.beeop.BeeObjectHandle;
 import io.github.hellyguo.poolcmp.domain.DemoPojo;
-import org.bbottema.genericobjectpool.PoolableObject;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Fork;
 import org.openjdk.jmh.annotations.Measurement;
 import org.openjdk.jmh.annotations.OutputTimeUnit;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.State;
+import org.openjdk.jmh.annotations.TearDown;
 import org.openjdk.jmh.annotations.Threads;
 import org.openjdk.jmh.annotations.Warmup;
 import org.openjdk.jmh.infra.Blackhole;
+import org.openjdk.jmh.profile.GCProfiler;
+import org.openjdk.jmh.runner.Runner;
+import org.openjdk.jmh.runner.RunnerException;
+import org.openjdk.jmh.runner.options.Options;
+import org.openjdk.jmh.runner.options.OptionsBuilder;
 
-import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 import static io.github.hellyguo.poolcmp.CompareConsts.ARRAY_SIZE;
@@ -41,132 +44,29 @@ import static io.github.hellyguo.poolcmp.CompareConsts.ARRAY_SIZE;
 @Warmup(iterations = 10, time = 1, timeUnit = TimeUnit.SECONDS)
 @Measurement(iterations = 5, time = 100, timeUnit = TimeUnit.MILLISECONDS)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
-public class Compare002Benchmark extends CompareBase {
+public class Compare002Benchmark {
 
     private static final ThreadLocal<DemoPojo[]> ARRAY_LOCAL
             = ThreadLocal.withInitial(() -> new DemoPojo[ARRAY_SIZE]);
 
-    @Benchmark
-    public void test0NewOneRequestMultiTimes(Blackhole blackhole) {
-        DemoPojo[] pojoArray = getPojo();
-        for (int i = 0; i < ARRAY_SIZE; i++) {
-            pojoArray[i] = new DemoPojo();
-        }
-        blackhole.consume(pojoArray);
+    public static void main(String[] args) throws RunnerException {
+        Options opt = new OptionsBuilder()
+                .include(Compare002Benchmark.class.getSimpleName())
+                .addProfiler(GCProfiler.class)
+                .build();
+        new Runner(opt).run();
     }
 
     @Benchmark
-    public void test1BeeOPOneRequestMultiTimes(Blackhole blackhole) {
+    public void testBatch(PoolImplParam param, Blackhole blackhole) {
         DemoPojo[] pojoArray = getPojo();
-        BeeObjectHandle[] handles = new BeeObjectHandle[ARRAY_SIZE];
-        try {
-            for (int i = 0; i < ARRAY_SIZE; i++) {
-                handles[i] = BEEOP_POOL.getObject();
-                pojoArray[i] = (DemoPojo) handles[i].getObjectProxy();
-            }
-            blackhole.consume(pojoArray);
-        } catch (Exception e) {
-            //
-        } finally {
-            Arrays.stream(handles).forEach(handle -> {
-                try {
-                    if (handle != null) {
-                        handle.close();
-                    }
-                } catch (Exception e) {
-                    //
-                }
-            });
-        }
+        param.desc.getImplementor().testPoolBatch(blackhole::consume, pojoArray, ARRAY_SIZE);
     }
 
-    @Benchmark
-    public void test2CommonsPoolOneRequestMultiTimes(Blackhole blackhole) {
-        DemoPojo[] pojoArray = getPojo();
-        try {
-            for (int i = 0; i < ARRAY_SIZE; i++) {
-                pojoArray[i] = COMMONS_2_POOL.borrowObject();
-            }
-            blackhole.consume(pojoArray);
-        } catch (Exception e) {
-            //
-        } finally {
-            Arrays.stream(pojoArray).forEach(COMMONS_2_POOL::returnObject);
-        }
-    }
-
-    @Benchmark
-    public void test3FrogspawnPoolOneRequestMultiTimes(Blackhole blackhole) {
-        DemoPojo[] pojoArray = getPojo();
-        try {
-            for (int i = 0; i < ARRAY_SIZE; i++) {
-                pojoArray[i] = FS_POOL.fetch();
-            }
-            blackhole.consume(pojoArray);
-        } catch (Exception e) {
-            //
-        } finally {
-            Arrays.stream(pojoArray).forEach(FS_POOL::release);
-        }
-    }
-
-    @SuppressWarnings("unchecked")
-    @Benchmark
-    public void test4GOPoolOneRequestMultiTimes(Blackhole blackhole) {
-        DemoPojo[] pojoArray = getPojo();
-        PoolableObject<DemoPojo>[] holders = new PoolableObject[ARRAY_SIZE];
-        try {
-            PoolableObject<DemoPojo> holder;
-            for (int i = 0; i < ARRAY_SIZE; i++) {
-                holder = G_O_POOL.claim(1, TimeUnit.SECONDS); // null if timed out
-                if (holder != null) {
-                    holders[i] = holder;
-                    pojoArray[i] = holder.getAllocatedObject();
-                }
-            }
-            blackhole.consume(pojoArray);
-        } catch (Exception e) {
-            //
-        } finally {
-            Arrays.stream(holders).forEach(holder -> {
-                if (holder != null) {
-                    holder.release();
-                }
-            });
-        }
-    }
-
-    @Benchmark
-    public void test5LitePoolOneRequestMultiTimes(Blackhole blackhole) {
-        DemoPojo[] pojoArray = getPojo();
-        try {
-            for (int i = 0; i < ARRAY_SIZE; i++) {
-                pojoArray[i] = LITE_POOL.acquire();
-            }
-            blackhole.consume(pojoArray);
-        } catch (Exception e) {
-            //
-        } finally {
-            Arrays.stream(pojoArray).forEach(pojo -> {
-                if (pojo != null) {
-                    LITE_POOL.release(pojo);
-                }
-            });
-        }
-    }
-
-    @Benchmark
-    public void test6ViburPoolOneRequestMultiTimes(Blackhole blackhole) {
-        DemoPojo[] pojoArray = getPojo();
-        try {
-            for (int i = 0; i < ARRAY_SIZE; i++) {
-                pojoArray[i] = VIBUR_POOL.tryTake(100, TimeUnit.MILLISECONDS);
-            }
-            blackhole.consume(pojoArray);
-        } catch (Exception e) {
-            //
-        } finally {
-            Arrays.stream(pojoArray).forEach(VIBUR_POOL::restore);
+    @TearDown
+    public void tearDown() {
+        for (PoolImplDesc desc : PoolImplDesc.values()) {
+            desc.getImplementor().shutdown();
         }
     }
 

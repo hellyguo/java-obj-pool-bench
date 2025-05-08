@@ -23,12 +23,25 @@ import io.github.hellyguo.poolcmp.PoolImplementor;
 import io.github.hellyguo.poolcmp.domain.DemoPojo;
 import io.github.hellyguo.poolcmp.misc.DemoPojoCreator;
 
+import java.util.Arrays;
+import java.util.function.Consumer;
+
 import static io.github.hellyguo.poolcmp.CompareConsts.MAX_SIZE;
 
 public class Frogspawn001 implements PoolImplementor {
 
     protected static final ObjectsMemoryPool<DemoPojo> FS_POOL =
             ObjectsMemoryPoolFactory.newPool(new DemoPojoCreator(), MAX_SIZE);
+
+    private static final Consumer<DemoPojo> RELEASER = pojo -> {
+        try {
+            if (pojo != null) {
+                FS_POOL.release(pojo);
+            }
+        } catch (Exception e) {
+            //
+        }
+    };
 
     @Override
     public void testPool(PojoCustomer customer) {
@@ -40,6 +53,20 @@ public class Frogspawn001 implements PoolImplementor {
             //
         } finally {
             FS_POOL.release(pojo);
+        }
+    }
+
+    @Override
+    public void testPoolBatch(PojoCustomer customer, DemoPojo[] pojoArray, int batchSize) {
+        try {
+            for (int i = 0; i < batchSize; i++) {
+                pojoArray[i] = FS_POOL.fetch();
+            }
+            customer.consume(pojoArray);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            Arrays.stream(pojoArray).forEach(RELEASER);
         }
     }
 
