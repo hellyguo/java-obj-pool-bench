@@ -60,6 +60,6 @@ Compare002Benchmark.test6ViburPoolOneRequestMultiTimes      thrpt    5    140.15
 
 ## 结论
 
-1. 逐个使用，建议使用：`frogspawn`/`LitePool`
+1. 逐个使用，建议使用：`frogspawn`/`StormPot`,
 2. 一批使用，建议使用：`BeeOP`
-3. `NoMoreInstance001SweepClean` 相当于 `JavaNew`，所以快，但 `GC` 不友好
+3. `NoMoreInstance`(`SweepClean`)/`LitePool` 相当于 `JavaNew`，所以快，但 `GC` 不友好
