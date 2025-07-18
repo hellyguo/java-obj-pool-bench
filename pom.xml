@@ -6,7 +6,7 @@
 
     <groupId>io.github.hellyguo</groupId>
     <artifactId>java-obj-pool-bench</artifactId>
-    <version>0.1-dev</version>
+    <version>0.1-dev</version> <!-- managed by updgitver -->
 
     <dependencies>
         <!-- junit -->
