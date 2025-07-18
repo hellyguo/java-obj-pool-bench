@@ -12,6 +12,14 @@ import io.github.hellyguo.poolcmp.impl.CoralPool002LinkedPool;
 import io.github.hellyguo.poolcmp.impl.FastPool001;
 import io.github.hellyguo.poolcmp.impl.FastPool002Disruptor;
 import io.github.hellyguo.poolcmp.impl.Frogspawn001;
+import io.github.hellyguo.poolcmp.impl.Frogspawn002;
+import io.github.hellyguo.poolcmp.impl.Frogspawn003;
+import io.github.hellyguo.poolcmp.impl.Frogspawn004;
+import io.github.hellyguo.poolcmp.impl.Frogspawn005;
+import io.github.hellyguo.poolcmp.impl.Frogspawn006;
+import io.github.hellyguo.poolcmp.impl.Frogspawn007;
+import io.github.hellyguo.poolcmp.impl.Frogspawn008;
+import io.github.hellyguo.poolcmp.impl.Frogspawn009;
 import io.github.hellyguo.poolcmp.impl.FuriousObjectPool001;
 import io.github.hellyguo.poolcmp.impl.GenericObjectPool001;
 import io.github.hellyguo.poolcmp.impl.JavaNew001;
@@ -42,6 +50,14 @@ public enum PoolImplDesc {
     FastPool001(new FastPool001()),
     FastPool002Disruptor(new FastPool002Disruptor()),
     Frogspawn001(new Frogspawn001()),
+    Frogspawn002(new Frogspawn002()),
+    Frogspawn003(new Frogspawn003()),
+    Frogspawn004(new Frogspawn004()),
+    Frogspawn005(new Frogspawn005()),
+    Frogspawn006(new Frogspawn006()),
+    Frogspawn007(new Frogspawn007()),
+    Frogspawn008(new Frogspawn008()),
+    Frogspawn009(new Frogspawn009()),
     FuriousObjectPool001(new FuriousObjectPool001()),
     GenericObjectPool001(new GenericObjectPool001()),
     KOPool001(new KOPool001()),
