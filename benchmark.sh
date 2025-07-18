@@ -51,7 +51,7 @@ poolSizes="4096"
 
 objectpools_benchmark() {
     echo "# Running object pool benchmark. Benchmark Mode: $BM_MODE Time Unit: $TIME_UNIT Threads: $1 Pool Sizes: $poolSizes"
-    java -Xms2g -Xmx2g -jar $ROOT_DIR/target/benchmarks.jar -jvmArgs "-Xms12g -Xmx12g" -bm $BM_MODE -tu $TIME_UNIT \
+    java -Xms2g -Xmx2g -jar $ROOT_DIR/target/benchmarks.jar -jvmArgs "-Xms12G -Xmx12G" -bm $BM_MODE -tu $TIME_UNIT \
         -f $forks -wi $warmup_iterations -i $iterations -t $1 -p poolSize=$poolSizes \
         -w $warmup_time -r $measurement_time -v EXTRA -prof gc \
         -rff "$RESULTS_DIR/results-$1-threads.csv" -rf csv -e simple -e SoftReference
