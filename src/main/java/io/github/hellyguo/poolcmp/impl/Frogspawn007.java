@@ -39,8 +39,7 @@ public class Frogspawn007 implements PoolImplementor {
                     MAX_SIZE,
                     new PoolStrategy(
                             FetchStrategy.MUST_FETCH_IN_POOL,
-                            FetchFailStrategy.CALL_CREATOR,
-                            false));
+                            FetchFailStrategy.CALL_CREATOR));
 
     private static final Consumer<DemoPojo> RELEASER = pojo -> {
         try {
