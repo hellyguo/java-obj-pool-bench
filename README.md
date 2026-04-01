@@ -1,8 +1,8 @@
 # java-obj-pool-bench
 
-try to compare all available object pool libraries, under **JVM 25**
+try to compare all available object pool libraries, under **JVM 1.8**
 
-> this is the result for JVM8. If need the result for JVM9+, please switch to branch `jvm21`.
+> this is the result for JVM8. If need the result for JVM21+, please switch to branch `jvm21`.
 
 ## 对比测试结果
 
@@ -19,9 +19,9 @@ try to compare all available object pool libraries, under **JVM 25**
 
 | 排名 | 实现 | 吞吐量 | 说明 |
 |------|------|--------|------|
-| 🥇 | **frogspawn** | **~1100 ops/us** | 比直接 new 快 2 倍！ |
-| 🥈 | LitePool | 282 ops/us | - |
-| 🥉 | Stormpot BlazePool | 291 ops/us | 零 GC 分配 |
+| 🥇 | **frogspawn003** | **1029 ops/us** | FETCH_FAIL_AS_NEW + NULLABLE |
+| 🥈 | Java new | 662 ops/us | 基线 |
+| 🥉 | Stormpot BlazePool | 292 ops/us | 零 GC 分配 |
 
 **推荐**: `frogspawn` - 在高并发单操作场景表现极为出色
 
@@ -29,9 +29,9 @@ try to compare all available object pool libraries, under **JVM 25**
 
 | 排名 | 实现 | 吞吐量 | 说明 |
 |------|------|--------|------|
-| 🥇 | **Java new** | **20369 ops/ms** | 无同步开销，JVM 优化 |
-| 🥈 | frogspawn | ~850 ops/ms | - |
-| 🥉 | FastPool+Disruptor | 778 ops/ms | - |
+| 🥇 | **Java new** | **18122 ops/ms** | 无同步开销，JVM 优化 |
+| 🥈 | frogspawn001 | 934 ops/ms | 默认配置 |
+| 🥉 | FastPool+Disruptor | 658 ops/ms | - |
 
 **推荐**: 直接 `new` - 批量场景下无竞争，直接创建对象最快
 

@@ -16,7 +16,7 @@
 
 > 运行于 Intel(R) Core(TM) i5-10210U CPU @ 1.60GHz
 
-> `JVM` OpenJDK 25.0.2+10-LTS
+> `JVM` Oracle JDK 1.8.0_371
 
 > `JVM` 开启参数 `-XX:-RestrictContended`
 
@@ -24,59 +24,60 @@
 
 ```verilog
 Benchmark                                           (desc)   Mode  Cnt     Score     Error   Units
-Compare001Benchmark.test     ApacheCommonsPool001StackPool  thrpt    5     4.289 ±   3.918  ops/us
-Compare001Benchmark.test          ApacheCommonsPool002Pool  thrpt    5     1.182 ±   1.937  ops/us
-Compare001Benchmark.test   ApacheCommonsPool003SoftRefPool  thrpt    5     4.776 ±   4.855  ops/us
-Compare001Benchmark.test         ApacheCommonsPool2001Pool  thrpt    5     2.173 ±   0.905  ops/us
-Compare001Benchmark.test  ApacheCommonsPool2002SoftRefPool  thrpt    5     0.085 ±   0.038  ops/us
-Compare001Benchmark.test                  BeeOp001FastPool  thrpt    5    57.061 ±  29.633  ops/us
-Compare001Benchmark.test              BeeOp002ObjectSource  thrpt    5    44.011 ±  10.930  ops/us
-Compare001Benchmark.test             CoralPool001ArrayPool  thrpt    5    24.434 ±   1.892  ops/us
-Compare001Benchmark.test            CoralPool002LinkedPool  thrpt    5     6.838 ±   0.440  ops/us
-Compare001Benchmark.test                       FastPool001  thrpt    5    15.163 ±   2.580  ops/us
-Compare001Benchmark.test              FastPool002Disruptor  thrpt    5    18.879 ±  13.548  ops/us
-Compare001Benchmark.test                      Frogspawn001  thrpt    5  1010.752 ±  61.414  ops/us
-Compare001Benchmark.test                      Frogspawn002  thrpt    5  1151.422 ±  86.059  ops/us
-Compare001Benchmark.test                      Frogspawn003  thrpt    5  1164.436 ± 268.994  ops/us
-Compare001Benchmark.test                      Frogspawn004  thrpt    5  1055.440 ± 109.274  ops/us
-Compare001Benchmark.test                      Frogspawn005  thrpt    5  1199.414 ± 107.628  ops/us
-Compare001Benchmark.test                      Frogspawn006  thrpt    5  1073.233 ± 158.693  ops/us
-Compare001Benchmark.test                      Frogspawn007  thrpt    5  1102.628 ±  82.463  ops/us
-Compare001Benchmark.test                      Frogspawn008  thrpt    5  1029.057 ± 217.100  ops/us
-Compare001Benchmark.test                      Frogspawn009  thrpt    5  1059.013 ± 116.408  ops/us
-Compare001Benchmark.test              FuriousObjectPool001  thrpt    5    13.135 ±   9.107  ops/us
-Compare001Benchmark.test              GenericObjectPool001  thrpt    5     7.243 ±   4.128  ops/us
-Compare001Benchmark.test                        JavaNew001  thrpt    5   574.073 ± 241.607  ops/us
-Compare001Benchmark.test                         KOPool001  thrpt    5     6.346 ±   3.612  ops/us
-Compare001Benchmark.test                       LitePool001  thrpt    5   282.483 ±  85.462  ops/us
-Compare001Benchmark.test              StormPot001BlazePool  thrpt    5   291.255 ±  24.446  ops/us
-Compare001Benchmark.test              StormPot002QueuePool  thrpt    5     5.498 ±   0.838  ops/us
-Compare001Benchmark.test                      ViburPool001  thrpt    5     4.042 ±   2.811  ops/us
+Compare001Benchmark.test     ApacheCommonsPool001StackPool  thrpt    5     3.768 ±   1.665  ops/us
+Compare001Benchmark.test          ApacheCommonsPool002Pool  thrpt    5     0.575 ±   0.614  ops/us
+Compare001Benchmark.test   ApacheCommonsPool003SoftRefPool  thrpt    5     4.553 ±   5.945  ops/us
+Compare001Benchmark.test         ApacheCommonsPool2001Pool  thrpt    5     2.276 ±   0.537  ops/us
+Compare001Benchmark.test  ApacheCommonsPool2002SoftRefPool  thrpt    5     0.131 ±   0.105  ops/us
+Compare001Benchmark.test                  BeeOp001FastPool  thrpt    5    37.843 ±  49.588  ops/us
+Compare001Benchmark.test              BeeOp002ObjectSource  thrpt    5    33.148 ±  19.778  ops/us
+Compare001Benchmark.test             CoralPool001ArrayPool  thrpt    5    13.748 ±   2.667  ops/us
+Compare001Benchmark.test            CoralPool002LinkedPool  thrpt    5     5.090 ±   1.081  ops/us
+Compare001Benchmark.test                       FastPool001  thrpt    5    13.397 ±   0.932  ops/us
+Compare001Benchmark.test              FastPool002Disruptor  thrpt    5    17.896 ±   4.955  ops/us
+Compare001Benchmark.test                      Frogspawn001  thrpt    5   152.079 ±  66.113  ops/us
+Compare001Benchmark.test                      Frogspawn002  thrpt    5   310.426 ±  97.565  ops/us
+Compare001Benchmark.test                      Frogspawn003  thrpt    5  1029.938 ± 164.359  ops/us
+Compare001Benchmark.test                      Frogspawn004  thrpt    5   402.626 ± 156.408  ops/us
+Compare001Benchmark.test                      Frogspawn005  thrpt    5   370.714 ± 372.613  ops/us
+Compare001Benchmark.test                      Frogspawn006  thrpt    5   298.895 ± 441.894  ops/us
+Compare001Benchmark.test                      Frogspawn007  thrpt    5   466.868 ± 275.812  ops/us
+Compare001Benchmark.test                      Frogspawn008  thrpt    5   295.966 ± 272.881  ops/us
+Compare001Benchmark.test                      Frogspawn009  thrpt    5   457.340 ± 645.845  ops/us
+Compare001Benchmark.test              FuriousObjectPool001  thrpt    5     9.177 ±   7.264  ops/us
+Compare001Benchmark.test              GenericObjectPool001  thrpt    5     7.340 ±   2.801  ops/us
+Compare001Benchmark.test                        JavaNew001  thrpt    5   662.220 ± 211.229  ops/us
+Compare001Benchmark.test                         KOPool001  thrpt    5     4.985 ±   2.996  ops/us
+Compare001Benchmark.test                       LitePool001  thrpt    5     2.305 ±   0.419  ops/us
+Compare001Benchmark.test              StormPot001BlazePool  thrpt    5   292.231 ±  37.807  ops/us
+Compare001Benchmark.test              StormPot002QueuePool  thrpt    5     4.174 ±   0.628  ops/us
+Compare001Benchmark.test                      ViburPool001  thrpt    5     4.554 ±   1.316  ops/us
 ```
 
 ```verilog
 Benchmark                                               (desc)   Mode  Cnt      Score      Error   Units
-Compare002Benchmark.testBatch    ApacheCommonsPool001StackPool  thrpt    5     82.350 ±   44.934  ops/ms
-Compare002Benchmark.testBatch         ApacheCommonsPool002Pool  thrpt    5     24.150 ±   11.273  ops/ms
-Compare002Benchmark.testBatch  ApacheCommonsPool003SoftRefPool  thrpt    5     91.548 ±   87.371  ops/ms
-Compare002Benchmark.testBatch        ApacheCommonsPool2001Pool  thrpt    5     75.606 ±   44.528  ops/ms
-Compare002Benchmark.testBatch                 BeeOp001FastPool  thrpt    5    163.425 ±   13.807  ops/ms
-Compare002Benchmark.testBatch                      FastPool001  thrpt    5    412.837 ±  167.161  ops/ms
-Compare002Benchmark.testBatch             FastPool002Disruptor  thrpt    5    778.448 ±  269.546  ops/ms
-Compare002Benchmark.testBatch                     Frogspawn001  thrpt    5    905.256 ±  193.825  ops/ms
-Compare002Benchmark.testBatch                     Frogspawn003  thrpt    5    825.525 ±  353.566  ops/ms
-Compare002Benchmark.testBatch                     Frogspawn004  thrpt    5    863.316 ±   67.834  ops/ms
-Compare002Benchmark.testBatch                     Frogspawn006  thrpt    5    880.359 ±  199.603  ops/ms
-Compare002Benchmark.testBatch                     Frogspawn007  thrpt    5    910.591 ±   72.257  ops/ms
-Compare002Benchmark.testBatch                     Frogspawn008  thrpt    5    853.516 ±   47.945  ops/ms
-Compare002Benchmark.testBatch                     Frogspawn009  thrpt    5    656.258 ±   46.528  ops/ms
-Compare002Benchmark.testBatch             FuriousObjectPool001  thrpt    5    363.443 ±  272.297  ops/ms
-Compare002Benchmark.testBatch             GenericObjectPool001  thrpt    5    240.446 ±  111.403  ops/ms
-Compare002Benchmark.testBatch                       JavaNew001  thrpt    5  20369.499 ± 2634.118  ops/ms
-Compare002Benchmark.testBatch                        KOPool001  thrpt    5    206.909 ±  102.054  ops/ms
-Compare002Benchmark.testBatch             StormPot001BlazePool  thrpt    5    186.601 ±   19.670  ops/ms
-Compare002Benchmark.testBatch             StormPot002QueuePool  thrpt    5    167.141 ±   22.734  ops/ms
-Compare002Benchmark.testBatch                     ViburPool001  thrpt    5    158.673 ±   16.967  ops/ms
+Compare002Benchmark.testBatch    ApacheCommonsPool001StackPool  thrpt    5    139.504 ±   99.225  ops/ms
+Compare002Benchmark.testBatch         ApacheCommonsPool002Pool  thrpt    5     19.846 ±   15.258  ops/ms
+Compare002Benchmark.testBatch  ApacheCommonsPool003SoftRefPool  thrpt    5    152.700 ±  166.225  ops/ms
+Compare002Benchmark.testBatch        ApacheCommonsPool2001Pool  thrpt    5     76.468 ±   30.473  ops/ms
+Compare002Benchmark.testBatch                 BeeOp001FastPool  thrpt    5    175.617 ±  100.578  ops/ms
+Compare002Benchmark.testBatch            CoralPool001ArrayPool  thrpt    5    227.340 ±  472.552  ops/ms
+Compare002Benchmark.testBatch                      FastPool001  thrpt    5    408.738 ±   94.943  ops/ms
+Compare002Benchmark.testBatch             FastPool002Disruptor  thrpt    5    658.670 ±  151.784  ops/ms
+Compare002Benchmark.testBatch                     Frogspawn001  thrpt    5    934.223 ±   60.328  ops/ms
+Compare002Benchmark.testBatch                     Frogspawn003  thrpt    5    889.036 ±   99.040  ops/ms
+Compare002Benchmark.testBatch                     Frogspawn004  thrpt    5    865.809 ±   91.297  ops/ms
+Compare002Benchmark.testBatch                     Frogspawn006  thrpt    5    892.890 ±   40.006  ops/ms
+Compare002Benchmark.testBatch                     Frogspawn007  thrpt    5    883.431 ±   62.435  ops/ms
+Compare002Benchmark.testBatch                     Frogspawn008  thrpt    5    901.441 ±   88.390  ops/ms
+Compare002Benchmark.testBatch                     Frogspawn009  thrpt    5    858.134 ±   66.698  ops/ms
+Compare002Benchmark.testBatch             FuriousObjectPool001  thrpt    5    310.546 ±  230.466  ops/ms
+Compare002Benchmark.testBatch             GenericObjectPool001  thrpt    5    267.957 ±  129.352  ops/ms
+Compare002Benchmark.testBatch                       JavaNew001  thrpt    5  18122.459 ± 2920.725  ops/ms
+Compare002Benchmark.testBatch                        KOPool001  thrpt    5    222.126 ±  146.944  ops/ms
+Compare002Benchmark.testBatch             StormPot001BlazePool  thrpt    5    134.825 ±   15.467  ops/ms
+Compare002Benchmark.testBatch             StormPot002QueuePool  thrpt    5    133.564 ±   17.498  ops/ms
+Compare002Benchmark.testBatch                     ViburPool001  thrpt    5    125.134 ±    8.533  ops/ms
 ```
 
 ## 测试失败说明

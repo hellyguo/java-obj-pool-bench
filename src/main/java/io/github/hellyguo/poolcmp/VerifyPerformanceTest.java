@@ -48,16 +48,18 @@ public class VerifyPerformanceTest {
     private static BlazePool<PooledSlotDemoPojo> stormpotPool;
     private static DisruptorObjectPool<DemoPojo> fastPool;
 
+    private static final String SEP_LINE = "============================================================";
+
     public static void main(String[] args) throws Exception {
         setUp();
         try {
-            System.out.println("\n" + "=".repeat(60));
+            System.out.println("\n" + SEP_LINE);
             System.out.println("对象池性能验证测试");
-            System.out.println("=".repeat(60));
+            System.out.println(SEP_LINE);
             System.out.println("预热轮次: " + WARMUP_ROUNDS);
             System.out.println("测试轮次: " + TEST_ROUNDS);
             System.out.println("多线程数: " + THREAD_COUNT);
-            System.out.println("=".repeat(60));
+            System.out.println(SEP_LINE);
 
             testJavaNewBaseline();
             
@@ -69,9 +71,9 @@ public class VerifyPerformanceTest {
             testStormpotMultiThread();
             testFastPoolMultiThread();
 
-            System.out.println("\n" + "=".repeat(60));
+            System.out.println("\n" + SEP_LINE);
             System.out.println("测试完成");
-            System.out.println("=".repeat(60));
+            System.out.println(SEP_LINE);
         } finally {
             tearDown();
         }
