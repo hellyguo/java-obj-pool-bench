@@ -130,13 +130,13 @@
         <dependency>
             <groupId>com.conversantmedia</groupId>
             <artifactId>disruptor</artifactId>
-            <version>1.2.19</version>
+            <version>1.2.15</version>
         </dependency>
         <!-- compare: frogspawn -->
         <dependency>
             <groupId>cn.itcraft</groupId>
             <artifactId>frogspawn</artifactId>
-            <version>0.5</version>
+            <version>0.6</version>
         </dependency>
         <!-- compare: generic-object-pool -->
         <dependency>

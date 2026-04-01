@@ -4,6 +4,10 @@ build
 out
 target
 results
+.settings
 
 *.iml
+.classpath
+.factorypath
+.project
 
