@@ -18,6 +18,44 @@
 
 > `JVM` 开启参数 `-XX:-RestrictContended`
 
+---
+
+## Frogspawn 0.6 详细测试结果
+
+> 测试环境: OpenJDK 25.0.2+10-LTS
+
+### 单个操作性能 (ops/us)
+
+| 排名 | 实现 | 吞吐量 | 误差 | FetchStrategy | FetchFailStrategy |
+|------|------|--------|------|---------------|-------------------|
+| 1 | **Frogspawn009** | **1198.472** | ±166.688 | MUST_FETCH_IN_POOL | NULLABLE |
+| 2 | **Frogspawn006** | **1171.123** | ±193.529 | FETCH_FAIL_AS_NULL | NULLABLE |
+| 3 | Frogspawn007 | 1098.417 | ±112.708 | MUST_FETCH_IN_POOL | CALL_CREATOR |
+| 4 | Frogspawn008 | 1092.560 | ±90.888 | MUST_FETCH_IN_POOL | NOT_AVAILABLE |
+| 5 | Frogspawn005 | 1072.348 | ±145.724 | FETCH_FAIL_AS_NULL | NOT_AVAILABLE |
+| 6 | Frogspawn003 | 1042.505 | ±60.703 | FETCH_FAIL_AS_NEW | NULLABLE |
+| 7 | Frogspawn001 | 1034.995 | ±185.100 | FETCH_FAIL_AS_NEW | CALL_CREATOR (默认) |
+| 8 | Frogspawn004 | 986.178 | ±102.579 | FETCH_FAIL_AS_NULL | CALL_CREATOR |
+| 9 | Frogspawn002 | 956.052 | ±233.221 | FETCH_FAIL_AS_NEW | NOT_AVAILABLE |
+
+### 批量操作性能 (ops/ms)
+
+| 排名 | 实现 | 吞吐量 | 误差 | 备注 |
+|------|------|--------|------|------|
+| 1 | **Frogspawn008** | **914.857** | ±71.161 | - |
+| 2 | Frogspawn003 | 890.312 | ±68.772 | - |
+| 3 | Frogspawn001 | 884.698 | ±121.998 | 默认配置 |
+| 4 | Frogspawn004 | 879.873 | ±144.580 | - |
+| 5 | Frogspawn007 | 697.008 | ±44.506 | - |
+| 6 | Frogspawn006 | 694.207 | ±35.756 | - |
+| 7 | Frogspawn009 | 692.827 | ±61.557 | - |
+| - | Frogspawn002 | ❌ 失败 | - | NOT_AVAILABLE 策略抛异常 |
+| - | Frogspawn005 | ❌ 失败 | - | NOT_AVAILABLE 策略抛异常 |
+
+---
+
+## 完整测试结果 (JVM 8)
+
 ```verilog
 Benchmark                                                                            (desc)   Mode  Cnt     Score       Error   Units
 Compare001Benchmark.test                                      ApacheCommonsPool001StackPool  thrpt    5     4.354 ±     0.104  ops/us
@@ -212,7 +250,7 @@ Compare002Benchmark.testBatch:·gc.count                                    Furi
 Compare002Benchmark.testBatch:·gc.time                                     FuriousObjectPool001  thrpt    5      2.000                  ms
 Compare002Benchmark.testBatch                                              GenericObjectPool001  thrpt    5    243.359 ±     7.757  ops/ms
 Compare002Benchmark.testBatch:·gc.alloc.rate                               GenericObjectPool001  thrpt    5     31.664 ±    29.923  MB/sec
-Compare002Benchmark.testBatch:·gc.alloc.rate.norm                          GenericObjectPool001  thrpt    5    975.633 ±   580.787    B/op
+Compare002Benchmark.testBatch:·gc.alloc.rate.norm                          GenericObjectPool001  thrpt    5    975.633 ±   580.787  B/op
 Compare002Benchmark.testBatch:·gc.churn.G1_Eden_Space                      GenericObjectPool001  thrpt    5     78.540 ±   676.255  MB/sec
 Compare002Benchmark.testBatch:·gc.churn.G1_Eden_Space.norm                 GenericObjectPool001  thrpt    5   2059.196 ± 17730.303    B/op
 Compare002Benchmark.testBatch:·gc.count                                    GenericObjectPool001  thrpt    5      1.000              counts
@@ -254,4 +292,3 @@ Compare002Benchmark.testBatch:·gc.alloc.rate                                   
 Compare002Benchmark.testBatch:·gc.alloc.rate.norm                                  ViburPool001  thrpt    5   1479.993 ±   755.777    B/op
 Compare002Benchmark.testBatch:·gc.count                                            ViburPool001  thrpt    5        ≈ 0              counts
 ```
-
