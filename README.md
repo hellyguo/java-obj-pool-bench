@@ -45,9 +45,11 @@ try to compare all available object pool libraries, under **JVM 1.8**
 
 ### frogspawn 0.6 策略选择
 
-| 策略 | 实现 | 适用场景 |
-|------|------|----------|
-| 默认配置 | Frogspawn001 | 通用场景，推荐 |
-| 最高性能 | Frogspawn005/006 | 单操作高性能 |
-| 批量场景 | Frogspawn007/008 | 批量吞吐量高 |
-| NOT_AVAILABLE | Frogspawn002/005 | 严格资源控制，池耗尽时抛异常 |
+| 策略 | 实现 | 单操作 | 批量操作 | 适用场景 |
+|------|------|--------|----------|----------|
+| 默认配置 | Frogspawn001 | 152 ops/us | 934 ops/ms | 通用场景，批量推荐 |
+| 最高性能 | Frogspawn003 | 1029 ops/us | 889 ops/ms | 单操作高性能，推荐 |
+| 批量高性能 | Frogspawn006 | 298 ops/us | 892 ops/ms | 批量吞吐量高 |
+| NOT_AVAILABLE | Frogspawn002/005 | - | - | 严格资源控制，池耗尽时抛异常 |
+
+**注意**: Frogspawn003 在 JDK 8 下单操作性能最佳（1029 ops/us），比直接 new 快 55%
