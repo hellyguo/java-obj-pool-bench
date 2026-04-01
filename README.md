@@ -10,7 +10,8 @@ try to compare all available object pool libraries, under **JVM 25**
 
 ## AI 点评
 
-[review](review.md)
+- [java-review-20260206-001](docs/review/java-review-20260206-001.md)
+- [java-review-20260324-001](docs/review/java-review-20260324-001.md)
 
 ## 结论
 
