@@ -2,7 +2,7 @@
 
 try to compare all available object pool libraries, under **JVM 25**
 
-> this is the result for JVM25. If need the result for JVM8, please switch to branch `itc/jvm8`.
+> this is the result for JVM8. If need the result for JVM9+, please switch to branch `jvm21`.
 
 ## 对比测试结果
 
