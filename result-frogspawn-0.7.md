@@ -131,6 +131,9 @@ ApacheCommonsPool2002SoftRefPool, BeeOp002ObjectSource, CoralPool001ArrayPool, C
 
 ## 7. 全量对比：JDK25（jvm21 分支，31 个实现，其他库使用较新版本）
 
+> **口径警告**：`NoMoreInstance001SweepClean` / `NoMoreInstance002Clean` 的结果不可与
+> borrow/return 池直接比较，原因见第 9 节。NoMoreInstance001 在本基准中实际等价于 `new`。
+
 ### Compare001 单操作（ops/us）
 
 | 排名 | 实现 | 吞吐 | 误差 |
@@ -221,4 +224,49 @@ ApacheCommonsPool2002SoftRefPool, BeeOp002ObjectSource, CoralPool001ArrayPool, C
   其他失败来自第三方池实现。
 - **reset 取舍**：0.6 把清理成本交给使用方；0.7 由库承担，降低心智负担。单操作数字的
   小幅下降是这一语义修正的代价，不是实现退化。
+
+## 9. NoMoreInstance 口径说明（重要）
+
+`NoMoreInstance001SweepClean` / `NoMoreInstance002Clean` 的高/低排名是**基准调用方式**造成的，
+不能直接与 frogspawn 的 fetch/release 对比。
+
+### 9.1 NoMoreInstance001SweepClean：实际等价于 `new`
+
+NoMoreInstance 的 `SweepCleanablePool` 是 **sweep/scope 模型**：
+
+- `get()` 只推进内部游标：`pool[index++]`；
+- 没有 per-object `release`；
+- `cleanAll()` 才把游标重置为 0；
+- 游标越界后走 `supplier.get()`，即新建对象。
+
+基准代码只在 `shutdown()` 调用 `cleanAll()`，测量期间从不 sweep。池容量 3000 很快耗尽，
+之后每次 `get()` 都在新建 `DemoPojo`。GC 数据可以证明：
+
+| 实现 | `gc.alloc.rate.norm` | GC count | 说明 |
+|------|---------------------:|---------:|------|
+| JavaNew001 | 1280.078 B/op | 55 | 每次 new |
+| NoMoreInstance001SweepClean | 1280.081 B/op | 53 | 与 new 相同，说明未复用 |
+| Frogspawn003 | 98.083 B/op | 1 | 真正复用 |
+
+所以它的 21k ops/ms 不是“池比 frogspawn 快”，而是“它在这个基准里等于 `new`”。
+旧结果里也标注了 NoMoreInstance001 “接近 new 性能，但 GC 不友好”，原因相同。
+
+### 9.2 NoMoreInstance002Clean：批量未归还对象
+
+`CleanablePool.get()` 返回 `Cleanable<T>`，必须 `close()` 才会归还对象。基准的批量代码是：
+
+```java
+pojoArray[i] = NMI_POOL.get().value();
+```
+
+`Cleanable` 包装被直接丢弃，从未 `close()`，对象没有归还；池耗尽后同样走向新建。
+单操作使用 try-with-resources，是正确用法，但吞吐只有约 3.75 ops/us（包装对象与 close 成本）。
+
+### 9.3 公平比较方式
+
+- **NoMoreInstance001**：应使用 per-thread `SweepCleanablePool`，在 scope 结束时调用
+  `cleanAll()`；它是 scope 池，不是 borrow/return 池，建议单列，不参与同一排名。
+- **NoMoreInstance002**：批量应保存 `Cleanable` 数组，consume 后逐个 `close()`，把归还/清理
+  成本计入测量。
+- 当前全量表中的 NoMoreInstance 行应视为**说明性数据**，不作为“池性能超过 frogspawn”的证据。
 
