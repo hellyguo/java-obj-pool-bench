@@ -225,6 +225,49 @@ ApacheCommonsPool2002SoftRefPool, BeeOp002ObjectSource, CoralPool001ArrayPool, C
 - **reset 取舍**：0.6 把清理成本交给使用方；0.7 由库承担，降低心智负担。单操作数字的
   小幅下降是这一语义修正的代价，不是实现退化。
 
+## 10. NoMoreInstance 修正后补测（JDK25）
+
+修正内容：
+
+- **NoMoreInstance001SweepClean**：改为 per-thread `SweepCleanablePool`，每次单操作/批量
+  scope 结束后调用 `cleanAll()`；不再共享一个全局 sweep 游标。
+- **NoMoreInstance002Clean**：批量保存 `Cleanable` 数组，consume 后逐个 `close()`，把归还
+  与清理成本计入测量。
+
+结果：
+
+| 场景 | 001 Sweep（scope） | 002 Cleanable（per-object） |
+|------|-------------------:|----------------------------:|
+| 单操作（ops/us） | **1699.890 ± 5.624** | 2.616 ± 0.254 |
+| 批量 32 个（ops/ms） | **77,798** | 86 |
+| `gc.alloc.rate.norm` | 0.001 B/op | 947.264 B/op |
+| GC count | ≈ 0 | ≈ 0 |
+
+对照（JDK25 全量）：
+
+| 场景 | Frogspawn 最好 | new |
+|------|---------------:|----:|
+| 单操作（ops/us） | 1133.2（Frogspawn002） | 763.7 |
+| 批量 32 个（ops/ms） | 722.7（Frogspawn009） | 21,936 |
+
+解读：
+
+1. **001 是 scope 池，不是 borrow/return 池**
+   - 它没有 per-object release，只能在“get N 个 → 全部使用完 → `cleanAll()`”的 scope 中使用。
+   - 修正后单操作 1699.9 ops/us、批量 77,798 ops/ms，零分配、零 GC；这个数字说明
+     “scope 批量取用”模型可以非常快，但**不能**与 frogspawn 的逐对象 fetch/release 直接比较。
+   - 若对象生命周期超出 scope，`cleanAll()` 会破坏仍在使用中的对象；使用时必须保证 scope 边界。
+
+2. **002 是 per-object 归还模型**
+   - 批量修正后 86 ops/ms，仍远低于 frogspawn 的 ~700 ops/ms；`Cleanable` 包装与逐对象
+     `close()` 是主要成本。
+   - 单操作 2.616 ops/us，也远低于 frogspawn（674-1133 ops/us）。
+
+3. **旧数据作废**
+   - 旧 001 的 21,372 ops/ms 是“未调用 `cleanAll()`，池耗尽后等价于 `new`”，不是池性能。
+   - 旧 002 批量的 53.75 ops/ms 是“未 close `Cleanable`，对象未归还”，不是有效口径。
+   - 以本节修正后的数字为准。
+
 ## 9. NoMoreInstance 口径说明（重要）
 
 `NoMoreInstance001SweepClean` / `NoMoreInstance002Clean` 的高/低排名是**基准调用方式**造成的，
