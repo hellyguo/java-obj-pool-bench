@@ -233,7 +233,7 @@ public class Compare001Benchmark {
 - JUnit 5.9.1 (测试框架)
 - JMH 1.32 (基准测试框架)
 - 多个对象池实现库 (见 pom.xml)
-- frogspawn 0.6
+- frogspawn 0.7-dev
 
 ### 禁止事项
 
