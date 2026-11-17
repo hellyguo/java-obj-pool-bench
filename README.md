@@ -8,6 +8,8 @@ try to compare all available object pool libraries, under **JVM 21**
 
 [result](result.md)
 
+- [frogspawn 0.7-dev 全量横评与 0.6 同机对比](result-frogspawn-0.7.md)
+
 ## JDK 版本对比分析
 
 [JDK 8 vs JDK 21 性能对比分析](docs/analysis.md)
