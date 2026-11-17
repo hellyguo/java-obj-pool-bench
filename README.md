@@ -8,7 +8,7 @@ try to compare all available object pool libraries, under **JVM 1.8**
 
 [result](result.md)
 
-- [frogspawn 0.6 vs 0.7-dev 同机对比](result-frogspawn-0.7.md)
+- [frogspawn 0.7-dev 全量横评与 0.6 同机对比](result-frogspawn-0.7.md)
 
 ## AI 点评
 
