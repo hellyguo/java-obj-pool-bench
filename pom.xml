@@ -136,7 +136,7 @@
         <dependency>
             <groupId>cn.itcraft</groupId>
             <artifactId>frogspawn</artifactId>
-            <version>0.7-dev</version>
+            <version>0.7.0</version>
         </dependency>
         <!-- compare: generic-object-pool -->
         <dependency>
